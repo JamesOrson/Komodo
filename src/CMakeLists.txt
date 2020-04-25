@@ -1,7 +1,9 @@
-# Generic test that uses conan libs
-add_executable(intro main.cpp)
+file(GLOB_RECURSE KOMODO_SRC_FILES "./komodo/*.cpp")
+add_executable(example main.cpp ${KOMODO_SRC_FILES})
+target_include_directories(example PUBLIC include)
+
 target_link_libraries(
-  intro
+  example
   PRIVATE
   project_options
   project_warnings

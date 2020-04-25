@@ -1,7 +1,7 @@
-#include <spdlog/spdlog.h>
+#include <komodo/core/game.h>
 
 int main(/*int argc, const char **argv*/)
 {
-  //Use the default logger (stdout, multi-threaded, colored)
-  spdlog::info("Hello, {}!", "World");
+  auto game = komodo::core::Game();
+  game.run();
 }
