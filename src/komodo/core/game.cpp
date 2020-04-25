@@ -102,10 +102,27 @@ namespace komodo::core
     #pragma endregion
 
     #pragma region Member Methods
-    void Game::draw(delta dt/*, Color clearColor = Color::white*/)
+    void Game::draw([[maybe_unused]] float dt, sf::Color clearColor)
     {
-        spdlog::info("FPS: {}", this->getFramesPerSecond());
-        spdlog::info("Delta (draw): {} seconds", dt.count());
+        // Clears the screen for next set of draws
+        this->window->clear(clearColor);
+
+        {
+            // Draw components
+            sf::CircleShape shape(50.0f);
+            auto windowSize = this->window->getSize();
+            shape.setPosition(windowSize.x / 2.0f - 50.0f, windowSize.y / 2.0f - 50.0f);
+            shape.setFillColor(sf::Color(150u, 50u, 250u));
+
+            // set a 10-pixel wide orange outline
+            shape.setOutlineThickness(10.0f);
+            shape.setOutlineColor(sf::Color(250u, 150u, 100u));
+
+            this->window->draw(shape);
+        }
+
+        // Blits the frame to the window
+        this->window->display();
     };
     
     void Game::exit()
@@ -114,31 +131,50 @@ namespace komodo::core
 
     void Game::initialize()
     {
+        this->clock = std::shared_ptr<sf::Clock>(new sf::Clock());
+        this->window = std::shared_ptr<sf::RenderWindow>(
+            new sf::RenderWindow(
+                sf::VideoMode(800u, 600u),
+                "Komodo",
+                sf::Style::Default
+            )
+        );
     };
 
     void Game::run()
     {
         this->initialize();
 
-        auto drawStart = std::chrono::steady_clock::now();
-        auto updateStart = std::chrono::steady_clock::now();
-        while (true)
+        auto drawStart = this->clock->getElapsedTime();
+        auto updateStart = this->clock->getElapsedTime();
+        while (!this->shouldClose)
         {
-            delta drawDelta = std::chrono::steady_clock::now() - drawStart;
-            auto count = drawDelta.count();
-            this->framesPerSecond = 1.0f / count;
-            this->draw(drawDelta);
-            drawStart = std::chrono::steady_clock::now();
-            
-            delta updateDelta = std::chrono::steady_clock::now() - updateStart;
-            this->update(updateDelta);
-            updateStart = std::chrono::steady_clock::now();
+            auto updateDelta = this->clock->getElapsedTime() - updateStart;
+            float dt = updateDelta.asSeconds();
+            this->update(dt);
+            updateStart = this->clock->getElapsedTime();
+            auto drawDelta = this->clock->getElapsedTime() - drawStart;
+
+            dt = drawDelta.asSeconds();
+            this->framesPerSecond = 1.0f / dt;
+            this->draw(dt);
+            drawStart = this->clock->getElapsedTime();
         }
+        this->window->close();
     };
 
-    void Game::update(delta dt)
+    void Game::update([[maybe_unused]] float dt)
     {
-        spdlog::info("Delta (update) seconds: {}", dt.count());
+        // check all the window's events that were triggered since the last iteration of the loop
+        sf::Event event;
+        while (this->window->pollEvent(event))
+        {
+            // "close requested" event: we close the window
+            if (event.type == sf::Event::Closed)
+            {
+                this->shouldClose = true;
+            }
+        }
     }
     #pragma endregion
 }

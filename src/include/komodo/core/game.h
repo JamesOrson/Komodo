@@ -1,9 +1,10 @@
 #pragma once
 
-#include <chrono>
+#include <memory>
+#include <SFML/Graphics.hpp>
+#include <SFML/System.hpp>
+#include <SFML/Window.hpp>
 #include <string>
-
-typedef std::chrono::duration<float> delta;
 
 namespace komodo::core
 {
@@ -47,11 +48,11 @@ namespace komodo::core
             //std::shared_ptr<Render2DSystem> createRender2DSystem();
             //std::shared_ptr<Render3DSystem> createRender3DSystem();
 
-            void draw(delta dt/*, Color clearColor = Color::white*/);
+            void draw(float dt, sf::Color clearColor = sf::Color(0.0f, 100.0f, 100.0f));
             void exit();
             void initialize();
             void run();
-            void update(delta dt);
+            void update(float dt);
 
             #pragma region Event handlers
             //int addExitingEvent(const std::shared_ptr<function<bool(ExitEventArgs args)>> handler);
@@ -75,16 +76,19 @@ namespace komodo::core
             #pragma region Members
             //BehaviorSystem behaviorSystem;
             //CameraSystem cameraSystem;
+            std::shared_ptr<sf::Clock> clock;
             //Shader defaultSpriteShader;
-            float framesPerSecond;
+            float framesPerSecond = 0.0;
             //GraphicsManager graphicsManager;
-            bool isActive;
+            bool isActive = true;
             //vector<PhysicsSystem> physicsSystems;
             //vector<Render2DSystem> render2DSystems;
             //vector<Render2DSystem> render2DSystems;
             std::string screenDeviceName;
+            bool shouldClose = false;
             //SoundSystem soundSystem;
             std::string title;
+            std::shared_ptr<sf::RenderWindow> window;
 
             #pragma endregion
     };
