@@ -8,7 +8,11 @@ include(cmake/StandardProjectSettings.cmake)
 
 # Link this 'library' to set the c++ standard / compile-time options requested
 add_library(project_options INTERFACE)
-target_compile_features(project_options INTERFACE cxx_std_20)
+if(${CMAKE_SYSTEM_NAME} STREQUAL "Windows")
+  target_compile_features(project_options INTERFACE cxx_std_17)
+else()
+  target_compile_features(project_options INTERFACE cxx_std_20)
+endif()
 
 if(CMAKE_CXX_COMPILER_ID MATCHES ".*Clang")
   option(ENABLE_BUILD_WITH_TIME_TRACE "Enable -ftime-trace to generate time tracing .json files on clang" OFF)
@@ -16,7 +20,7 @@ if(CMAKE_CXX_COMPILER_ID MATCHES ".*Clang")
     add_compile_definitions(project_options INTERFACE -ftime-trace)
   endif()
 endif()
- 
+
 # Link this 'library' to use the warnings specified in CompilerWarnings.cmake
 add_library(project_warnings INTERFACE)
 

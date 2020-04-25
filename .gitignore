@@ -20,21 +20,17 @@
 *.mod
 *.smod
 
-# Compiled Static libraries
-*.lai
-*.la
-*.a
-*.lib
-
 # Executables
 *.exe
 *.out
 *.app
 
 build/
+out/
 CMakeFiles/
 CMakeCache.txt
 MakeFile
 cmake_install.cmake
 .DS_STORE
 .vscode/
+.vs/

@@ -20,9 +20,26 @@ jobs:
     - name: Install Clang
       shell: bash
       run: |
+        sudo apt update
         sudo update-alternatives --install /usr/bin/clang++ clang++ /usr/bin/clang++-9 9
+    
+    - name: Install dev libraries
+      shell: bash
+      run: |
+        sudo apt install -y libflac-dev
+        sudo apt install -y libgl1-mesa-dev
+        sudo apt install -y libopenal-dev
+        sudo apt install -y libsfml-dev
+        sudo apt install -y libudev-dev
+        sudo apt install -y libvorbis-dev
+        sudo apt install -y libxrandr-dev
+    
+    - name: Build and install packages
+      shell: bash
+      run: |
+        bash ./setup.sh
 
-    - name: Create Build Environment
+    - name: Create build environment
       # Some projects don't allow in-source building, so create a separate build directory
       # We'll use this as our working directory for all subsequent commands
       run: cmake -E make_directory ${{runner.workspace}}/build
@@ -41,7 +58,7 @@ jobs:
         export CXX=/usr/bin/clang++
         cmake $GITHUB_WORKSPACE -DCMAKE_BUILD_TYPE=$BUILD_TYPE
 
-    - name: Build
+    - name: Build Komodo
       working-directory: ${{runner.workspace}}/build
       shell: bash
       # Execute the build.  You can specify a specific target with "--target <NAME>"
