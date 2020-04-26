@@ -71,7 +71,7 @@ namespace komodo::core
         //bool removeWindowSizeChangedEvent(const int handlerId);
 #pragma endregion
 
-#pragma endregion Member Methods
+#pragma endregion
     private:
 #pragma region Members
         //BehaviorSystem behaviorSystem;

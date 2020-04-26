@@ -1,5 +1,9 @@
-file(GLOB_RECURSE KOMODO_SRC_FILES "./komodo/*.cpp")
-add_executable(example main.cpp ${KOMODO_SRC_FILES})
+add_executable(
+    example
+    main.cpp
+    "komodo/core/game.cpp"
+    "komodo/core/ecs/entities/entity.cpp"
+)
 target_include_directories(
   example
   PUBLIC
