@@ -5,7 +5,7 @@
 
 namespace komodo::core
 {
-    #pragma region Constructors
+#pragma region Constructors
     Game::Game()
     {
         //this->graphicsManager = std::make_shared<GraphicsManager>(...params...);
@@ -21,17 +21,89 @@ namespace komodo::core
         //this->render2DSystems = std::make_shared<std::vector<Render2DSystem>>();
         //this->render3DSystems = std::make_shared<std::vector<Render3DSystem>>();
     }
-    #pragma endregion
+#pragma endregion
 
     Game::~Game()
     {
+        spdlog::info("Clock: {}", this->clock.use_count());
     }
 
-    #pragma region Static Members
+#pragma region Static Members
     //Game::ContentManager contentManager = ???
-    #pragma endregion
+#pragma endregion
 
-    #pragma region Accessors
+#pragma region Member Methods
+    void Game::draw([[maybe_unused]] float dt, sf::Color clearColor)
+    {
+        // Clears the screen for next set of draws
+        this->window->clear(clearColor);
+        {
+            // Draw components
+            sf::CircleShape shape(50.0f);
+            auto windowSize = this->window->getSize();
+            shape.setPosition(windowSize.x / 2.0f - 50.0f, windowSize.y / 2.0f - 50.0f);
+            shape.setFillColor(sf::Color(150u, 50u, 250u));
+
+            // set a 10-pixel wide orange outline
+            shape.setOutlineThickness(10.0f);
+            shape.setOutlineColor(sf::Color(250u, 150u, 100u));
+
+            this->window->draw(shape);
+        }
+
+        // Blits the frame to the window
+        this->window->display();
+    };
+
+    void Game::exit() {};
+
+    void Game::initialize()
+    {
+        this->clock = std::make_shared<sf::Clock>();
+        this->window = std::make_shared<sf::RenderWindow>(
+            sf::VideoMode(800u, 600u),
+            "Komodo",
+            sf::Style::Default);
+    };
+
+    void Game::run()
+    {
+        this->initialize();
+
+        auto drawStart = this->clock->getElapsedTime();
+        auto updateStart = this->clock->getElapsedTime();
+        while (!this->shouldClose)
+        {
+            auto updateDelta = this->clock->getElapsedTime() - updateStart;
+            float dt = updateDelta.asSeconds();
+            this->update(dt);
+            updateStart = this->clock->getElapsedTime();
+            auto drawDelta = this->clock->getElapsedTime() - drawStart;
+
+            dt = drawDelta.asSeconds();
+            this->framesPerSecond = 1.0f / dt;
+            this->draw(dt);
+            drawStart = this->clock->getElapsedTime();
+        }
+        this->window->close();
+    };
+
+    void Game::update([[maybe_unused]] float dt)
+    {
+        // check all the window's events that were triggered since the last iteration of the loop
+        sf::Event event;
+        while (this->window->pollEvent(event))
+        {
+            // "close requested" event: we close the window
+            if (event.type == sf::Event::Closed)
+            {
+                this->shouldClose = true;
+            }
+        }
+    }
+#pragma endregion
+
+#pragma region Accessors
     //weak_ptr<BehaviorSystem> Game::getBehaviorSystem() const
     // {
     // }
@@ -43,7 +115,7 @@ namespace komodo::core
     //weak_ptr<Shader> Game::getDefaultSpriteShader() const
     // {
     // }
-    
+
     float Game::getFramesPerSecond() const
     {
         return this->framesPerSecond;
@@ -82,9 +154,9 @@ namespace komodo::core
     {
         return this->title;
     }
-    #pragma endregion
+#pragma endregion
 
-    #pragma region Mutators
+#pragma region Mutators
     // void Game::setDefaultSpriteShader(Shader value)
     // {
     // }
@@ -99,82 +171,6 @@ namespace komodo::core
         this->title = value;
     }
 
-    #pragma endregion
+#pragma endregion
 
-    #pragma region Member Methods
-    void Game::draw([[maybe_unused]] float dt, sf::Color clearColor)
-    {
-        // Clears the screen for next set of draws
-        this->window->clear(clearColor);
-
-        {
-            // Draw components
-            sf::CircleShape shape(50.0f);
-            auto windowSize = this->window->getSize();
-            shape.setPosition(windowSize.x / 2.0f - 50.0f, windowSize.y / 2.0f - 50.0f);
-            shape.setFillColor(sf::Color(150u, 50u, 250u));
-
-            // set a 10-pixel wide orange outline
-            shape.setOutlineThickness(10.0f);
-            shape.setOutlineColor(sf::Color(250u, 150u, 100u));
-
-            this->window->draw(shape);
-        }
-
-        // Blits the frame to the window
-        this->window->display();
-    };
-    
-    void Game::exit()
-    {
-    };
-
-    void Game::initialize()
-    {
-        this->clock = std::shared_ptr<sf::Clock>(new sf::Clock());
-        this->window = std::shared_ptr<sf::RenderWindow>(
-            new sf::RenderWindow(
-                sf::VideoMode(800u, 600u),
-                "Komodo",
-                sf::Style::Default
-            )
-        );
-    };
-
-    void Game::run()
-    {
-        this->initialize();
-
-        auto drawStart = this->clock->getElapsedTime();
-        auto updateStart = this->clock->getElapsedTime();
-        while (!this->shouldClose)
-        {
-            auto updateDelta = this->clock->getElapsedTime() - updateStart;
-            float dt = updateDelta.asSeconds();
-            this->update(dt);
-            updateStart = this->clock->getElapsedTime();
-            auto drawDelta = this->clock->getElapsedTime() - drawStart;
-
-            dt = drawDelta.asSeconds();
-            this->framesPerSecond = 1.0f / dt;
-            this->draw(dt);
-            drawStart = this->clock->getElapsedTime();
-        }
-        this->window->close();
-    };
-
-    void Game::update([[maybe_unused]] float dt)
-    {
-        // check all the window's events that were triggered since the last iteration of the loop
-        sf::Event event;
-        while (this->window->pollEvent(event))
-        {
-            // "close requested" event: we close the window
-            if (event.type == sf::Event::Closed)
-            {
-                this->shouldClose = true;
-            }
-        }
-    }
-    #pragma endregion
-}
+} // namespace komodo::core
