@@ -5,10 +5,10 @@
 
 int main(/*int argc, const char **argv*/)
 {
-    auto game = std::make_shared<komodo::core::Game>();
-    auto entity = std::make_shared<komodo::core::ecs::entities::Entity>(game);
-    auto textComponent = komodo::core::ecs::components::TextComponent(entity);
-    game->run();
+  auto game = std::make_shared<komodo::core::Game>();
+  auto entity = std::make_shared<komodo::core::ecs::entities::Entity>(game);
+  auto textComponent = komodo::core::ecs::components::TextComponent(entity);
+  game->run();
 
-    return 0;
+  return 0;
 }

@@ -3,47 +3,49 @@
 namespace komodo::core::ecs::components
 {
 #pragma region Constructors
-    SpriteComponent::SpriteComponent(
-        std::weak_ptr<komodo::core::ecs::entities::Entity> parent /*, Texture texture, Effect shader*/,
-        bool isBillboard, bool isEnabled)
-        : Drawable2DComponent(parent, isBillboard, isEnabled)
-    {
-        /*TODO: Waiting on Texture implementation
-        this->texture = texture;*/
-    }
+  SpriteComponent::SpriteComponent(
+    std::weak_ptr<komodo::core::ecs::entities::Entity>
+      parent /*, Texture texture, Effect shader*/,
+    bool isBillboard,
+    bool isEnabled)
+    : Drawable2DComponent(parent, isBillboard, isEnabled)
+  {
     /*TODO: Waiting on Texture implementation
-    SpriteComponent::SpriteComponent(std::weak_ptr<komodo::core::ecs::entities::Entity> parent, string texturePath,
-    Effect shader) : Drawable2DComponent(parent)
-    {
-        this->texture = texture;
-    }*/
+    this->texture = texture;*/
+  }
+  /*TODO: Waiting on Texture implementation
+  SpriteComponent::SpriteComponent(std::weak_ptr<komodo::core::ecs::entities::Entity>
+  parent, string texturePath, Effect shader) : Drawable2DComponent(parent)
+  {
+      this->texture = texture;
+  }*/
 #pragma endregion
 
-    SpriteComponent::~SpriteComponent() {}
+  SpriteComponent::~SpriteComponent() {}
 
 #pragma region Accessors
-    /*TODO: Waiting on Vector2 implementation
-    virtual Vector2 getCenter() const;*/
-    float SpriteComponent::getHeight() const
-    {
-        return 0.0f;
-        /*TODO: Waiting on Texture implementation
-        return this->texture.height * this->scale.y;*/
-    }
-    float SpriteComponent::getWidth() const
-    {
-        return 0.0f;
-        /*TODO: Waiting on Texture implementation
-        return this->texture.width * this->scale.x;*/
-    }
+  /*TODO: Waiting on Vector2 implementation
+  virtual Vector2 getCenter() const;*/
+  float SpriteComponent::getHeight() const
+  {
+    return 0.0f;
+    /*TODO: Waiting on Texture implementation
+    return this->texture.height * this->scale.y;*/
+  }
+  float SpriteComponent::getWidth() const
+  {
+    return 0.0f;
+    /*TODO: Waiting on Texture implementation
+    return this->texture.width * this->scale.x;*/
+  }
 #pragma endregion
 
 #pragma region Mutators
-    /*TODO: Waiting on Texture implementation
-    void setTexture(Texture value)
-    {
-        this->texture = texture;
-    }
-    */
+  /*TODO: Waiting on Texture implementation
+  void setTexture(Texture value)
+  {
+      this->texture = texture;
+  }
+  */
 #pragma endregion
 } // namespace komodo::core::ecs::components

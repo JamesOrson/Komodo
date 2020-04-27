@@ -3,12 +3,12 @@
 namespace komodo::core::ecs::components
 {
 #pragma region Constructors
-    BehaviorComponent::BehaviorComponent(std::weak_ptr<komodo::core::ecs::entities::Entity> parent) : Component(parent)
-    {
-    }
+  BehaviorComponent::BehaviorComponent(
+    std::weak_ptr<komodo::core::ecs::entities::Entity> parent,
+    bool isEnabled)
+    : Component(parent, isEnabled)
+  {}
 #pragma endregion
 
-    BehaviorComponent::~BehaviorComponent()
-    {
-    }
-}
+  BehaviorComponent::~BehaviorComponent() {}
+} // namespace komodo::core::ecs::components
