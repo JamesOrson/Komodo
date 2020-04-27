@@ -3,7 +3,7 @@
 namespace komodo::core::ecs::entities
 {
 #pragma region Constructors
-    Entity::Entity(std::shared_ptr<Game> game)
+    Entity::Entity(std::weak_ptr<Game> game)
     {
         this->id = nextId++;
         this->game = game;
@@ -105,8 +105,19 @@ namespace komodo::core::ecs::entities
             return false;
         }
     }*/
+
     bool removeComponent([[maybe_unused]] unsigned int componentId)
     {
+        std::vector<unsigned int> ids; //TODO: iterate over all components instead
+        for (auto component = ids.begin(); component != ids.end(); ++component)
+        {
+            if (*component == componentId)
+            {
+                //(*it)->setParent(nullptr);
+                ids.erase(component);
+                return true;
+            }
+        }
         return false;
     }
 #pragma endregion

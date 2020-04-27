@@ -1,0 +1,55 @@
+#pragma once
+
+#include <komodo/core/ecs/entities/entity.h>
+#include <memory>
+
+namespace komodo::core::ecs::components
+{
+    class Component
+    {
+    public:
+#pragma region Constructors
+        Component(std::weak_ptr<komodo::core::ecs::entities::Entity> parent);
+#pragma endregion
+
+        virtual ~Component() = 0;
+
+#pragma region Static Members
+        static unsigned int nextId;
+#pragma endregion
+
+#pragma region Accessors
+        unsigned int getId() const;
+        bool getIsEnabled() const;
+        /*TODO: Waiting on Vector3 implementation
+        Vector3 getPosition() const;
+        Vector3 getRotation() const;
+        Vector3 getScale() const;*/
+#pragma endregion
+
+#pragma region Mutators
+        void setIsEnabled(bool value);
+        /*TODO: Waiting on Vector3 implementation
+        void setPosition(Vector3 value);
+        void setRotation(Vector3 value);
+        void setScale(Vector3 value);*/
+#pragma endregion
+
+#pragma region Member Methods
+        /*TODO: Waiting on Matrix implementation
+        Matrix getRotationMatrix() const;*/
+        /*TODO: Waiting on Quaternion implementation
+        Matrix getRotationQuaternion() const;*/
+#pragma endregion
+    protected:
+#pragma region Members
+        unsigned int id;
+        bool isEnabled;
+        /*TODO: Waiting on Vector3 implementation
+        Vector3 position;
+        Vector3 rotation;
+        Vector3 scale;*/
+        std::weak_ptr<komodo::core::ecs::entities::Entity> parent;
+#pragma endregion
+    };
+} // namespace komodo::core

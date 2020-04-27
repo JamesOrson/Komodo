@@ -9,7 +9,7 @@ namespace komodo::core::ecs::entities
     {
     public:
 #pragma region Constructors
-        Entity(std::shared_ptr<Game> game);
+        Entity(std::weak_ptr<Game> game);
 #pragma endregion
 
         ~Entity();
@@ -53,8 +53,8 @@ namespace komodo::core::ecs::entities
     private:
 #pragma region Members
         /*TODO: Waiting on Component implementation
-        std::vector<Component> components;*/
-        std::shared_ptr<Game> game;
+        std::vector<std::shared_ptr<Component>> components;*/
+        std::weak_ptr<Game> game;
         unsigned int id;
         bool isEnabled;
         /*TODO: Waiting on System implementation

@@ -1,8 +1,12 @@
+file(GLOB SRC_COMPONENT_FILES "komodo/core/ecs/components/*.cpp")
+file(GLOB SRC_ENTITY_FILES "komodo/core/ecs/entities/*.cpp")
+
 add_executable(
     example
     main.cpp
     "komodo/core/game.cpp"
-    "komodo/core/ecs/entities/entity.cpp"
+    ${SRC_ENTITY_FILES}
+    ${SRC_COMPONENT_FILES}
 )
 target_include_directories(
   example
