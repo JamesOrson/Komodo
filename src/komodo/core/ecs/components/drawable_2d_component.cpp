@@ -3,14 +3,15 @@
 namespace komodo::core::ecs::components
 {
 #pragma region Constructors
-    Drawable2DComponent::Drawable2DComponent(std::weak_ptr<komodo::core::ecs::entities::Entity> parent) : Component(parent)
+    Drawable2DComponent::Drawable2DComponent(std::weak_ptr<komodo::core::ecs::entities::Entity> parent,
+                                             bool isBillboard, bool isEnabled)
+        : Component(parent, isEnabled)
     {
+        this->isBillboard = isBillboard;
     }
 #pragma endregion
 
-    Drawable2DComponent::~Drawable2DComponent()
-    {
-    }
+    Drawable2DComponent::~Drawable2DComponent() {}
 
 #pragma region Accessors
     /*TODO: Waiting on Vector2 implementation
@@ -37,4 +38,4 @@ namespace komodo::core::ecs::components
         this->shader = value;
     }*/
 #pragma endregion
-}
+} // namespace komodo::core::ecs::components

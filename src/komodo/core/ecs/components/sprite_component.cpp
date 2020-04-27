@@ -3,21 +3,23 @@
 namespace komodo::core::ecs::components
 {
 #pragma region Constructors
-    SpriteComponent::SpriteComponent(std::weak_ptr<komodo::core::ecs::entities::Entity> parent/*, Texture texture, Effect shader*/) : Drawable2DComponent(parent)
+    SpriteComponent::SpriteComponent(
+        std::weak_ptr<komodo::core::ecs::entities::Entity> parent /*, Texture texture, Effect shader*/,
+        bool isBillboard, bool isEnabled)
+        : Drawable2DComponent(parent, isBillboard, isEnabled)
     {
         /*TODO: Waiting on Texture implementation
         this->texture = texture;*/
     }
     /*TODO: Waiting on Texture implementation
-    SpriteComponent::SpriteComponent(std::weak_ptr<komodo::core::ecs::entities::Entity> parent, string texturePath, Effect shader) : Drawable2DComponent(parent)
+    SpriteComponent::SpriteComponent(std::weak_ptr<komodo::core::ecs::entities::Entity> parent, string texturePath,
+    Effect shader) : Drawable2DComponent(parent)
     {
         this->texture = texture;
     }*/
 #pragma endregion
 
-    SpriteComponent::~SpriteComponent()
-    {
-    }
+    SpriteComponent::~SpriteComponent() {}
 
 #pragma region Accessors
     /*TODO: Waiting on Vector2 implementation
@@ -44,4 +46,4 @@ namespace komodo::core::ecs::components
     }
     */
 #pragma endregion
-}
+} // namespace komodo::core::ecs::components

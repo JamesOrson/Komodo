@@ -13,8 +13,10 @@ namespace komodo::core::ecs::components
     {
     public:
 #pragma region Constructors
-        SpriteComponent(std::weak_ptr<komodo::core::ecs::entities::Entity> parent/*, Texture texture, Effect shader*/);
-        /*SpriteComponent(std::weak_ptr<komodo::core::ecs::entities::Entity> parent, string texturePath, Effect shader);*/
+        SpriteComponent(std::weak_ptr<komodo::core::ecs::entities::Entity> parent /*, Texture texture, Effect shader*/,
+                        bool isBillboard = false, bool isEnabled = true);
+        /*SpriteComponent(std::weak_ptr<komodo::core::ecs::entities::Entity> parent, string texturePath, Effect
+         * shader);*/
 #pragma endregion
 
         ~SpriteComponent();
@@ -43,4 +45,4 @@ namespace komodo::core::ecs::components
         string texturePath;*/
 #pragma endregion
     };
-}
+} // namespace komodo::core::ecs::components

@@ -3,21 +3,23 @@
 namespace komodo::core::ecs::components
 {
 #pragma region Constructors
-    TextComponent::TextComponent(std::weak_ptr<komodo::core::ecs::entities::Entity> parent/*, Font font, Effect shader*/) : Drawable2DComponent(parent)
+    TextComponent::TextComponent(
+        std::weak_ptr<komodo::core::ecs::entities::Entity> parent /*, Font font, Effect shader*/, bool isBillboard,
+        bool isEnabled)
+        : Drawable2DComponent(parent, isBillboard, isEnabled)
     {
         /*TODO: Waiting on Font implementation
         this->font = font;*/
     }
     /*TODO: Waiting on Font implementation
-    TextComponent::TextComponent(std::weak_ptr<komodo::core::ecs::entities::Entity> parent, string fontPath, Effect shader) : Drawable2DComponent(parent)
+    TextComponent::TextComponent(std::weak_ptr<komodo::core::ecs::entities::Entity> parent, string fontPath, Effect
+    shader) : Drawable2DComponent(parent)
     {
         this->font = font;
     }*/
 #pragma endregion
 
-    TextComponent::~TextComponent()
-    {
-    }
+    TextComponent::~TextComponent() {}
 
 #pragma region Accessors
     /*TODO: Waiting on Vector2 implementation
@@ -44,4 +46,4 @@ namespace komodo::core::ecs::components
     }
     */
 #pragma endregion
-}
+} // namespace komodo::core::ecs::components
