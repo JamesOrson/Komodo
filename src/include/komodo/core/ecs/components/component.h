@@ -21,6 +21,7 @@ namespace komodo::core::ecs::components
 #pragma region Accessors
         unsigned int getId() const;
         bool getIsEnabled() const;
+        bool getIsInitialized() const;
         /*TODO: Waiting on Vector3 implementation
         Vector3 getPosition() const;
         Vector3 getRotation() const;
@@ -45,6 +46,7 @@ namespace komodo::core::ecs::components
 #pragma region Members
         unsigned int id;
         bool isEnabled;
+        bool isInitialized;
         /*TODO: Waiting on Vector3 implementation
         Vector3 position;
         Vector3 rotation;
@@ -52,4 +54,4 @@ namespace komodo::core::ecs::components
         std::weak_ptr<komodo::core::ecs::entities::Entity> parent;
 #pragma endregion
     };
-} // namespace komodo::core
+}

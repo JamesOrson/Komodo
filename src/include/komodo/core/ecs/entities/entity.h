@@ -68,4 +68,4 @@ namespace komodo::core::ecs::entities
         Vector3 scale;*/
 #pragma endregion
     };
-} // namespace komodo::core
+}

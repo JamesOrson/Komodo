@@ -92,4 +92,4 @@ namespace komodo::core
 
 #pragma endregion
     };
-} // namespace komodo::core
+}

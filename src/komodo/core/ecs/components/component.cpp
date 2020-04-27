@@ -7,6 +7,7 @@ namespace komodo::core::ecs::components
     {
         this->id = nextId++;
         this->isEnabled = true;
+        this->isInitialized = false;
         this->parent = parent;
         //this->position = Vector3();
         //this->rotation= Vector3();
@@ -31,6 +32,11 @@ namespace komodo::core::ecs::components
     bool Component::getIsEnabled() const
     {
         return this->isEnabled;
+    }
+
+    bool Component::getIsInitialized() const
+    {
+        return this->isInitialized;
     }
 
     /*TODO: Waiting on Vector3 implementation

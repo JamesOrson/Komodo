@@ -170,7 +170,5 @@ namespace komodo::core
     {
         this->title = value;
     }
-
 #pragma endregion
-
-} // namespace komodo::core
+}
