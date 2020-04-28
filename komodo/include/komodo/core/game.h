@@ -45,7 +45,6 @@ public:
 
 #pragma region Mutators
     // void setDefaultSpriteShader(Shader value);
-    void setIsActive(bool value);
     void setTitle(std::string value);
 #pragma endregion
 

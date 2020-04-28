@@ -26,7 +26,6 @@ public:
 #pragma region Member Methods
     void update([[maybe_unused]] float dt)
     {
-      std::cout << dt << std::endl;
     }
 #pragma endregion
   };

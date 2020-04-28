@@ -28,6 +28,7 @@ public:
     unsigned int getId() const;
     bool getIsEnabled() const;
     bool getIsInitialized() const;
+    std::weak_ptr<komodo::core::ecs::entities::Entity> getParent() const;
     /*TODO: Waiting on Vector3 implementation
     Vector3 getPosition() const;
     Vector3 getRotation() const;

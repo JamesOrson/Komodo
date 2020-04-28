@@ -38,22 +38,12 @@ namespace komodo::core
 #pragma region Member Methods
   void Game::draw([[maybe_unused]] float dt, sf::Color clearColor)
   {
+    spdlog::info("FPS: {}", this->framesPerSecond);
+
     // Clears the screen for next set of draws
     this->window->clear(clearColor);
-    {
-      // Draw components
-      sf::CircleShape shape(50.0f);
-      auto windowSize = this->window->getSize();
-      shape.setPosition(
-        windowSize.x / 2.0f - 50.0f, windowSize.y / 2.0f - 50.0f);
-      shape.setFillColor(sf::Color(150u, 50u, 250u));
-
-      // set a 10-pixel wide orange outline
-      shape.setOutlineThickness(10.0f);
-      shape.setOutlineColor(sf::Color(250u, 150u, 100u));
-
-      this->window->draw(shape);
-    }
+    
+    // TODO: Call drawable systems
 
     // Blits the frame to the window
     this->window->display();
@@ -166,11 +156,6 @@ namespace komodo::core
   // void Game::setDefaultSpriteShader(Shader value)
   // {
   // }
-
-  void Game::setIsActive(bool value)
-  {
-    this->isActive = value;
-  }
 
   void Game::setTitle(std::string value)
   {

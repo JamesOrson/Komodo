@@ -43,7 +43,13 @@ namespace komodo::core::ecs::systems
   {
     for (auto component : this->components)
     {
-      component->update(dt);
+      if (auto parent = component->getParent().lock())
+      {
+        if (parent->getIsEnabled() && component->getIsEnabled())
+        {
+          component->update(dt);
+        }
+      }
     }
   }
 #pragma endregion

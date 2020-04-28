@@ -44,6 +44,11 @@ namespace komodo::core::ecs::components
     return this->isInitialized;
   }
 
+  std::weak_ptr<komodo::core::ecs::entities::Entity> Component::getParent() const
+  {
+    return this->parent;
+  }
+
   /*TODO: Waiting on Vector3 implementation
   Vector3 Entity::getPosition() const
   {
