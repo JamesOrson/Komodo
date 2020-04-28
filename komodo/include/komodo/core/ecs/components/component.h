@@ -1,7 +1,11 @@
 #pragma once
 
-#include <komodo/core/ecs/entities/entity.h>
 #include <memory>
+
+namespace komodo::core::ecs::entities
+{
+    class Entity;
+}
 
 namespace komodo::core::ecs::components
 {

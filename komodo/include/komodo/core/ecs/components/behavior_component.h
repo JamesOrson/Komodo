@@ -1,20 +1,17 @@
 #pragma once
 
 #include <komodo/core/ecs/components/component.h>
-#include <komodo/core/ecs/entities/entity.h>
 #include <memory>
 
-/*TODO: Waiting on BehaviorSystem implementation
-class BehaviorSystem;*/
-class Component;
-class Entity;
+namespace komodo::core::ecs::entities
+{
+  class Entity;
+}
 
 namespace komodo::core::ecs::components
 {
   class BehaviorComponent : public Component
   {
-    /*TODO: Waiting on BehaviorSystem implementation
-    friend class BehaviorSystem;*/
 public:
 #pragma region Constructors
     BehaviorComponent(

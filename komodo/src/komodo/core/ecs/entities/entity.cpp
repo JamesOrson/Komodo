@@ -1,5 +1,10 @@
 #include <komodo/core/ecs/entities/entity.h>
 
+namespace komodo::core::ecs::components
+{
+  class BehaviorComponent;
+}
+
 namespace komodo::core::ecs::entities
 {
 #pragma region Constructors
@@ -21,8 +26,11 @@ namespace komodo::core::ecs::entities
 #pragma endregion
 
 #pragma region Accessors
-  /*TODO: Waiting on Component implementation
-  std::vector<Components> Entity::getComponents() const;*/
+  std::vector<std::shared_ptr<komodo::core::ecs::components::Component>> Entity::getComponents() const
+  {
+    return this->components;
+  }
+
   std::weak_ptr<Game> Entity::getGame() const
   {
     return this->game;
@@ -79,8 +87,19 @@ namespace komodo::core::ecs::entities
 #pragma endregion
 
 #pragma region Member Methods
-  /*TODO: Waiting on Component implementation
-  bool addComponent(std::weak_ptr<Component> component);*/
+  bool Entity::addComponent(std::shared_ptr<komodo::core::ecs::components::BehaviorComponent> component)
+  {
+    if (auto g = this->game.lock())
+    {
+      this->components.push_back(component);
+      if (auto behaviorSystem = g->getBehaviorSystem().lock())
+      {
+        behaviorSystem->components.push_back(component);
+        return true;
+      }
+    }
+    return false;
+  }
 
   bool Entity::clearComponents()
   {

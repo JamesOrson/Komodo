@@ -6,6 +6,13 @@
 #include <SFML/Window.hpp>
 #include <string>
 
+#include <komodo/core/ecs/systems/behavior_system.h>
+
+namespace komodo::core::ecs::systems
+{
+    class BehaviorSystem;
+}
+
 namespace komodo::core
 {
   class Game
@@ -22,7 +29,7 @@ public:
 #pragma endregion
 
 #pragma region Accessors
-    // weak_ptr<BehaviorSystem> getBehaviorSystem() const;
+    std::weak_ptr<komodo::core::ecs::systems::BehaviorSystem> getBehaviorSystem() const;
     // weak_ptr<CameraSystem> getCameraSystem() const;
     // weak_ptr<Shader> getDefaultSpriteShader() const;
     float getFramesPerSecond() const;
@@ -76,9 +83,10 @@ public:
 #pragma endregion
 
 #pragma endregion
+
 private:
 #pragma region Members
-    // BehaviorSystem behaviorSystem;
+    std::shared_ptr<komodo::core::ecs::systems::BehaviorSystem> behaviorSystem;
     // CameraSystem cameraSystem;
     std::shared_ptr<sf::Clock> clock;
     // Shader defaultSpriteShader;

@@ -14,9 +14,9 @@ namespace komodo::core
 
     // this->content = std::make_shared<ContentManager>(...params...);
 
-    // this->behaviorSystem =
-    // std::make_shared<BehaviorSystem>(...params...); this->cameraSystem =
-    // std::make_shared<CameraSystem>(...params...); this->physicsSystems =
+    this->behaviorSystem = std::make_shared<komodo::core::ecs::systems::BehaviorSystem>();
+    // this->cameraSystem = std::make_shared<CameraSystem>(...params...);
+    // this->physicsSystems =
     // std::make_shared<PhysicsSystem>(...params...); this->soundSystem =
     // std::make_shared<SoundSystem>(...params...);
 
@@ -103,13 +103,16 @@ namespace komodo::core
         this->shouldClose = true;
       }
     }
+
+    this->behaviorSystem->update(dt);
   }
 #pragma endregion
 
 #pragma region Accessors
-  // weak_ptr<BehaviorSystem> Game::getBehaviorSystem() const
-  // {
-  // }
+  std::weak_ptr<komodo::core::ecs::systems::BehaviorSystem> Game::getBehaviorSystem() const
+  {
+    return this->behaviorSystem;
+  }
 
   // weak_ptr<CameraSystem> Game::getCameraSystem() const
   // {

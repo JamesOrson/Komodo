@@ -1,9 +1,9 @@
 add_executable(
-  circle
+  moving_circle
   main.cpp
 )
 
 target_link_libraries(
-  circle
+  moving_circle
   komodo
 )

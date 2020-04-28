@@ -3,13 +3,24 @@
 #include <komodo/core/game.h>
 #include <memory>
 
+namespace komodo::core
+{
+  class Game;
+
+  namespace ecs::components
+  {
+    class Component;
+    class BehaviorComponent;
+  } // namespace ecs::components
+} // namespace komodo::core
+
 namespace komodo::core::ecs::entities
 {
   class Entity
   {
 public:
 #pragma region Constructors
-    Entity(std::weak_ptr<Game> game);
+    Entity(std::weak_ptr<komodo::core::Game> game);
 #pragma endregion
 
     ~Entity();
@@ -19,9 +30,9 @@ public:
 #pragma endregion
 
 #pragma region Accessors
-    /*TODO: Waiting on Component implementation
-    std::vector<Components> getComponents() const;*/
-    std::weak_ptr<Game> getGame() const;
+    std::vector<std::shared_ptr<komodo::core::ecs::components::Component>>
+    getComponents() const;
+    std::weak_ptr<komodo::core::Game> getGame() const;
     unsigned int getId() const;
     bool getIsEnabled() const;
     /*TODO: Waiting on Vector3 implementation
@@ -39,8 +50,9 @@ public:
 #pragma endregion
 
 #pragma region Member Methods
-    /*TODO: Waiting on Component implementation
-    bool addComponent(std::weak_ptr<Component> component);*/
+    bool addComponent(
+      std::shared_ptr<komodo::core::ecs::components::BehaviorComponent>
+        component);
     bool clearComponents();
     /*TODO: Waiting on Matrix implementation
     Matrix getRotationMatrix() const;*/
@@ -52,9 +64,8 @@ public:
 #pragma endregion
 private:
 #pragma region Members
-    /*TODO: Waiting on Component implementation
-    std::vector<std::shared_ptr<Component>> components;*/
-    std::weak_ptr<Game> game;
+    std::vector<std::shared_ptr<komodo::core::ecs::components::Component>> components;
+    std::weak_ptr<komodo::core::Game> game;
     unsigned int id;
     bool isEnabled;
     /*TODO: Waiting on System implementation

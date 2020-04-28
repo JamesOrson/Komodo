@@ -1,5 +1,10 @@
 #include <komodo/core/ecs/components/component.h>
 
+namespace komodo::core::ecs::entities
+{
+  class Entity;
+}
+
 namespace komodo::core::ecs::components
 {
 #pragma region Constructors
