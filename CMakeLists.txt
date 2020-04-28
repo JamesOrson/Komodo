@@ -2,7 +2,6 @@ cmake_minimum_required(VERSION 3.15)
 
 set(CMAKE_VERBOSE_MAKEFILE ON)
 
-# Set the project name to your project name, my project isn't very descriptive
 project(Komodo CXX)
 include(cmake/StandardProjectSettings.cmake)
 
@@ -55,7 +54,8 @@ if (ENABLE_PCH)
   target_precompile_headers(project_options INTERFACE <vector> <string> <map> <utility>)
 endif()
 
-add_subdirectory(src)
+add_subdirectory(komodo)
+add_subdirectory(examples)
 
 option(ENABLE_UNITY "Enable Unity builds of projects" OFF)
 if (ENABLE_UNITY)

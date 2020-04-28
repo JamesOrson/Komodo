@@ -1,22 +1,21 @@
-file(GLOB SRC_COMPONENT_FILES "komodo/core/ecs/components/*.cpp")
-file(GLOB SRC_ENTITY_FILES "komodo/core/ecs/entities/*.cpp")
+file(GLOB SRC_COMPONENT_FILES "src/komodo/core/ecs/components/*.cpp")
+file(GLOB SRC_ENTITY_FILES "src/komodo/core/ecs/entities/*.cpp")
 
-add_executable(
-    example
-    main.cpp
-    "komodo/core/game.cpp"
+add_library(
+    komodo
+    "src/komodo/core/game.cpp"
     ${SRC_ENTITY_FILES}
     ${SRC_COMPONENT_FILES}
 )
 target_include_directories(
-  example
+  komodo
   PUBLIC
   include
 )
 
 target_link_libraries(
-  example
-  PRIVATE
+  komodo
+  PUBLIC
   project_options
   project_warnings
   spdlog
