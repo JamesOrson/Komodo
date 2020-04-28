@@ -94,8 +94,7 @@ namespace komodo::core::ecs::entities
       this->components.push_back(component);
       if (auto behaviorSystem = g->getBehaviorSystem().lock())
       {
-        behaviorSystem->components.push_back(component);
-        return true;
+        return behaviorSystem->addComponent(component);
       }
     }
     return false;

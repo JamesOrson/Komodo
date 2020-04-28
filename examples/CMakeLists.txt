@@ -2,5 +2,5 @@ add_subdirectory(
   circle
 )
 add_subdirectory(
-  moving_circle
+  simple_behavior
 )

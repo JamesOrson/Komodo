@@ -4,6 +4,7 @@
 #include <komodo/core/ecs/systems/system.h>
 #include <komodo/core/game.h>
 #include <memory>
+#include <queue>
 #include <vector>
 
 namespace komodo::core
@@ -20,7 +21,6 @@ namespace komodo::core::ecs::systems
 {
   class BehaviorSystem : public System
   {
-    friend class komodo::core::ecs::entities::Entity;
 
 public:
 #pragma region Constructors
@@ -36,6 +36,9 @@ public:
 #pragma endregion
 
 #pragma region Member Methods
+    bool addComponent(
+      std::shared_ptr<komodo::core::ecs::components::BehaviorComponent>
+        component);
     void initialize();
     void postUpdate(float dt);
     void preUpdate(float dt);
@@ -47,6 +50,15 @@ private:
     std::vector<
       std::shared_ptr<komodo::core::ecs::components::BehaviorComponent>>
       components;
+    std::queue<
+      std::shared_ptr<komodo::core::ecs::components::BehaviorComponent>>
+      uninitializedComponents;
+#pragma endregion
+
+#pragma region Member Methods
+    bool
+    addEntity(std::shared_ptr<komodo::core::ecs::entities::Entity> entityToAdd);
+    void initializeComponents();
 #pragma endregion
   };
 } // namespace komodo::core::ecs::systems

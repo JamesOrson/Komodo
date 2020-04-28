@@ -56,6 +56,8 @@ namespace komodo::core
     this->clock = std::make_shared<sf::Clock>();
     this->window = std::make_shared<sf::RenderWindow>(
       sf::VideoMode(800u, 600u), "Komodo", sf::Style::Default);
+
+    this->behaviorSystem->initialize();
   };
 
   void Game::run()
@@ -94,7 +96,11 @@ namespace komodo::core
       }
     }
 
+    this->behaviorSystem->preUpdate(dt);
+
     this->behaviorSystem->update(dt);
+
+    this->behaviorSystem->postUpdate(dt);
   }
 #pragma endregion
 

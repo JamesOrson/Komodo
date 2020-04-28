@@ -28,19 +28,6 @@ namespace komodo::core::ecs::systems
 #pragma endregion
 
 #pragma region Member Methods
-  bool System::addEntity(std::shared_ptr<Entity> entityToAdd)
-  {
-    if (this->entities.count(entityToAdd->getId()) == 0)
-    {
-      this->entities[entityToAdd->getId()] = entityToAdd;
-      return true;
-    }
-    else
-    {
-      return false;
-    }
-  }
-
   void System::clearEntities()
   {
     this->entities.clear();

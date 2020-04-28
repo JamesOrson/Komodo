@@ -1,9 +1,9 @@
 add_executable(
-  moving_circle
+  simple_behavior
   main.cpp
 )
 
 target_link_libraries(
-  moving_circle
+  simple_behavior
   komodo
 )

@@ -28,7 +28,7 @@ public:
 #pragma endregion
 
 #pragma region Member Methods
-    virtual bool addEntity(std::shared_ptr<komodo::core::ecs::entities::Entity> entityToAdd);
+    virtual bool addEntity(std::shared_ptr<komodo::core::ecs::entities::Entity> entityToAdd) = 0;
     virtual void clearEntities();
     virtual void initialize() = 0;
     virtual bool removeEntity(const std::weak_ptr<komodo::core::ecs::entities::Entity> entityToRemove);

@@ -12,4 +12,11 @@ namespace komodo::core::ecs::components
 #pragma endregion
 
   BehaviorComponent::~BehaviorComponent() {}
+
+#pragma region Member Methods
+  void BehaviorComponent::initialize()
+  {
+    this->isInitialized = true;
+  }
+#pragma endregion
 } // namespace komodo::core::ecs::components
