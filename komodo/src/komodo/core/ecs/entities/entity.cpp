@@ -8,30 +8,42 @@ namespace komodo::core::ecs::components
 namespace komodo::core::ecs::entities
 {
 #pragma region Constructors
-  Entity::Entity(std::weak_ptr<Game> game)
+  Entity::Entity(komodo::core::Game &game)
+    : game(game)
   {
     this->id = nextId++;
-    this->game = game;
     this->isEnabled = true;
     // this->position = Vector3();
     // this->rotation= Vector3();
     // this->scale = Vector3();
+
+    entityStore[this->id] = this;
   }
 #pragma endregion
 
-  Entity::~Entity() {}
+  Entity::~Entity()
+  {
+    if (entityStore.count(this->id) != 0)
+    {
+      this->game.getBehaviorSystem()->removeEntity(this->id);
+      entityStore.erase(this->id);
+    }
+  }
 
 #pragma region Static Members
-  unsigned int Entity::nextId = 0u;
+  std::unordered_map<unsigned int, Entity*> Entity::entityStore;
+  unsigned int Entity::nextId = 1u;
+  unsigned int Entity::emptyId = 0u;
 #pragma endregion
 
 #pragma region Accessors
-  std::vector<std::shared_ptr<komodo::core::ecs::components::Component>> Entity::getComponents() const
+  std::vector<std::shared_ptr<komodo::core::ecs::components::Component>>
+  Entity::getComponents() const
   {
     return this->components;
   }
 
-  std::weak_ptr<Game> Entity::getGame() const
+  komodo::core::Game& Entity::getGame() const
   {
     return this->game;
   }
@@ -45,6 +57,7 @@ namespace komodo::core::ecs::entities
   {
     return this->isEnabled;
   }
+
   /*TODO: Waiting on Vector3 implementation
   Vector3 Entity::getPosition() const
   {
@@ -87,15 +100,18 @@ namespace komodo::core::ecs::entities
 #pragma endregion
 
 #pragma region Member Methods
-  bool Entity::addComponent(std::shared_ptr<komodo::core::ecs::components::BehaviorComponent> component)
+  bool Entity::addComponent(
+    std::shared_ptr<komodo::core::ecs::components::BehaviorComponent> component)
   {
-    if (auto g = this->game.lock())
+    if (auto parent = getEntity(component->getParentId()))
     {
-      this->components.push_back(component);
-      if (auto behaviorSystem = g->getBehaviorSystem().lock())
-      {
-        return behaviorSystem->addComponent(component);
-      }
+      parent->removeComponent(component->getId());
+    }
+    component->parentId = this->id;
+    this->components.push_back(component);
+    if (auto behaviorSystem = this->game.getBehaviorSystem())
+    {
+      return behaviorSystem->addComponent(component);
     }
     return false;
   }
@@ -109,32 +125,36 @@ namespace komodo::core::ecs::entities
   Matrix getRotationMatrix() const;*/
   /*TODO: Waiting on Quaternion implementation
   Matrix getRotationQuaternion() const;*/
-  /*TODO: Waiting on Component implementation
-  bool removeComponent(std::weak_ptr<Component> component)
-  {
-      if (auto componentToRemove = component.get())
-      {
-          return this->removeComponent(componentToRemove->id);
-      }
-      else
-      {
-          return false;
-      }
-  }*/
 
-  bool removeComponent([[maybe_unused]] unsigned int componentId)
+  bool Entity::removeComponent([[maybe_unused]] unsigned int componentId)
   {
-    std::vector<unsigned int> ids; // TODO: iterate over all components instead
-    for (auto component = ids.begin(); component != ids.end(); ++component)
+    for (auto component = this->components.begin();
+         component != this->components.end();
+         ++component)
     {
-      if (*component == componentId)
+      if ((*component)->getId() == componentId)
       {
-        //(*it)->setParent(nullptr);
-        ids.erase(component);
+        (*component)->parentId = entities::Entity::emptyId;
+        this->components.erase(component);
         return true;
       }
     }
+
     return false;
+  }
+#pragma endregion
+
+#pragma region Static Member Methods
+  Entity* Entity::getEntity(unsigned int entityId)
+  {
+    if (entityStore.count(entityId) == 1)
+    {
+      return entityStore[entityId];
+    }
+    else
+    {
+      return nullptr;
+    }
   }
 #pragma endregion
 } // namespace komodo::core::ecs::entities

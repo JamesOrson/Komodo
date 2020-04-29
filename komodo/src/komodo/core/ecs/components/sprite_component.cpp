@@ -4,11 +4,10 @@ namespace komodo::core::ecs::components
 {
 #pragma region Constructors
   SpriteComponent::SpriteComponent(
-    std::weak_ptr<komodo::core::ecs::entities::Entity>
-      parent /*, Texture texture, Effect shader*/,
+    /*, Texture texture, Effect shader,*/
     bool isBillboard,
     bool isEnabled)
-    : Drawable2DComponent(parent, isBillboard, isEnabled)
+    : Drawable2DComponent(isBillboard, isEnabled)
   {
     /*TODO: Waiting on Texture implementation
     this->texture = texture;*/

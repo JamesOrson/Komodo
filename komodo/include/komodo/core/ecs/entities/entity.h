@@ -2,6 +2,7 @@
 
 #include <komodo/core/game.h>
 #include <memory>
+#include <unordered_map>
 
 namespace komodo::core
 {
@@ -12,27 +13,35 @@ namespace komodo::core
     class Component;
     class BehaviorComponent;
   } // namespace ecs::components
+
+  namespace ecs::systems
+  {
+    class BehaviorSystem;
+  } // namespace ecs::systems
 } // namespace komodo::core
 
 namespace komodo::core::ecs::entities
 {
   class Entity
   {
+    friend komodo::core::ecs::systems::BehaviorSystem;
+
 public:
 #pragma region Constructors
-    Entity(std::weak_ptr<komodo::core::Game> game);
+    Entity(komodo::core::Game &game);
 #pragma endregion
 
     ~Entity();
 
 #pragma region Static Members
     static unsigned int nextId;
+    static unsigned int emptyId;
 #pragma endregion
 
 #pragma region Accessors
     std::vector<std::shared_ptr<komodo::core::ecs::components::Component>>
     getComponents() const;
-    std::weak_ptr<komodo::core::Game> getGame() const;
+    komodo::core::Game &getGame() const;
     unsigned int getId() const;
     bool getIsEnabled() const;
     /*TODO: Waiting on Vector3 implementation
@@ -58,14 +67,14 @@ public:
     Matrix getRotationMatrix() const;*/
     /*TODO: Waiting on Quaternion implementation
     Matrix getRotationQuaternion() const;*/
-    /*TODO: Waiting on Component implementation
-    bool removeComponent(std::weak_ptr<Component> component);
-    bool removeComponent(unsigned int componentId);*/
+    bool removeComponent(unsigned int componentId);
 #pragma endregion
-private:
+
+  private:
 #pragma region Members
-    std::vector<std::shared_ptr<komodo::core::ecs::components::Component>> components;
-    std::weak_ptr<komodo::core::Game> game;
+    std::vector<std::shared_ptr<komodo::core::ecs::components::Component>>
+      components;
+    komodo::core::Game &game;
     unsigned int id;
     bool isEnabled;
     /*TODO: Waiting on System implementation
@@ -77,6 +86,15 @@ private:
     Vector3 position;
     Vector3 rotation;
     Vector3 scale;*/
+
+#pragma endregion Members
+
+#pragma region Static Members
+    static std::unordered_map<unsigned int, Entity*> entityStore;
+#pragma endregion
+
+#pragma region Static Member Methods
+    static Entity *getEntity(unsigned int entityId);
 #pragma endregion
   };
 } // namespace komodo::core::ecs::entities

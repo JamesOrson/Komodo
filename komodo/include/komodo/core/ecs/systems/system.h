@@ -3,7 +3,7 @@
 #include <komodo/core/ecs/entities/entity.h>
 #include <komodo/core/game.h>
 #include <memory>
-#include <unordered_map>
+#include <unordered_set>
 #include <vector>
 
 namespace komodo::core
@@ -16,7 +16,6 @@ namespace komodo::core::ecs::systems
   class System
   {
 public:
-
 #pragma region Constructors
     System();
 #pragma endregion
@@ -24,20 +23,19 @@ public:
     virtual ~System();
 
 #pragma region Accessors
-    std::unordered_map<unsigned int, std::shared_ptr<komodo::core::ecs::entities::Entity>> getEntities() const;
+    std::unordered_set<unsigned int> getEntities() const;
 #pragma endregion
 
 #pragma region Member Methods
-    virtual bool addEntity(std::shared_ptr<komodo::core::ecs::entities::Entity> entityToAdd) = 0;
+    virtual bool addEntity(const unsigned int entityId) = 0;
     virtual void clearEntities();
     virtual void initialize() = 0;
-    virtual bool removeEntity(const std::weak_ptr<komodo::core::ecs::entities::Entity> entityToRemove);
-    virtual bool removeEntity(const unsigned int entityId);
+    virtual bool removeEntity(const unsigned int entityId) = 0;
 #pragma endregion
 
 protected:
 #pragma region Members
-    std::unordered_map<unsigned int, std::shared_ptr<komodo::core::ecs::entities::Entity>> entities;
+    std::unordered_set<unsigned int> entities;
     bool isInitialized;
 #pragma endregion
   };

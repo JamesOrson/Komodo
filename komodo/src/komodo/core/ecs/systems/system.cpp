@@ -2,7 +2,6 @@
 #include <komodo/core/ecs/systems/system.h>
 #include <komodo/core/game.h>
 #include <memory>
-#include <unordered_map>
 #include <vector>
 
 using namespace komodo::core::ecs::entities;
@@ -12,16 +11,15 @@ namespace komodo::core::ecs::systems
 #pragma region Constructors
   System::System()
   {
-    this->entities = std::unordered_map<unsigned int, std::shared_ptr<Entity>>();
+    this->isInitialized = false;
   }
 #pragma endregion
 
-  System::~System()
-  {
-  }
+  System::~System() {}
 
 #pragma region Accessors
-  std::unordered_map<unsigned int, std::shared_ptr<Entity>> System::getEntities() const
+  std::unordered_set<unsigned int>
+  System::getEntities() const
   {
     return this->entities;
   }
@@ -30,32 +28,11 @@ namespace komodo::core::ecs::systems
 #pragma region Member Methods
   void System::clearEntities()
   {
+    for (auto id : this->entities)
+    {
+      this->removeEntity(id);
+    }
     this->entities.clear();
-  }
-
-  bool System::removeEntity(const std::weak_ptr<Entity> entityToRemove)
-  {
-    if (auto entity = entityToRemove.lock())
-    {
-      return this->removeEntity(entity->getId());
-    }
-    else
-    {
-      return false;
-    }
-  }
-
-  bool System::removeEntity(const unsigned int entityId)
-  {
-    if (this->entities.count(entityId) == 1)
-    {
-      this->entities.erase(entityId);
-      return true;
-    }
-    else
-    {
-      return false;
-    }
   }
 #pragma endregion
 } // namespace komodo::core::ecs::systems

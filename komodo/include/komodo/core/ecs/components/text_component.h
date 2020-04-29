@@ -14,8 +14,7 @@ namespace komodo::core::ecs::components
 public:
 #pragma region Constructors
     TextComponent(
-      std::weak_ptr<komodo::core::ecs::entities::Entity>
-        parent /*, Font font, Effect shader*/,
+      /*, Font font, Effect shader,*/
       bool isBillboard = false,
       bool isEnabled = true);
     /*TextComponent(std::weak_ptr<komodo::core::ecs::entities::Entity>

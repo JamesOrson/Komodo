@@ -3,11 +3,8 @@
 namespace komodo::core::ecs::components
 {
 #pragma region Constructors
-  Drawable2DComponent::Drawable2DComponent(
-    std::weak_ptr<komodo::core::ecs::entities::Entity> parent,
-    bool isBillboard,
-    bool isEnabled)
-    : Component(parent, isEnabled)
+  Drawable2DComponent::Drawable2DComponent(bool isBillboard, bool isEnabled)
+    : Component(isEnabled)
   {
     this->isBillboard = isBillboard;
   }

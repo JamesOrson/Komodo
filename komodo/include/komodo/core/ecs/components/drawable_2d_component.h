@@ -18,8 +18,7 @@ namespace komodo::core::ecs::components
 public:
 #pragma region Constructors
     Drawable2DComponent(
-      std::weak_ptr<komodo::core::ecs::entities::Entity>
-        parent /*, Effect shader*/,
+      /*, Effect shader,*/
       bool isBillboard = false,
       bool isEnabled = true);
 #pragma endregion

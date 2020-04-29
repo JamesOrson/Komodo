@@ -105,7 +105,7 @@ namespace komodo::core
 #pragma endregion
 
 #pragma region Accessors
-  std::weak_ptr<komodo::core::ecs::systems::BehaviorSystem> Game::getBehaviorSystem() const
+  std::shared_ptr<komodo::core::ecs::systems::BehaviorSystem> Game::getBehaviorSystem()
   {
     return this->behaviorSystem;
   }

@@ -2,20 +2,22 @@
 
 namespace komodo::core::ecs::entities
 {
-  class Entity;
-}
+  class Entity
+  {
+public:
+    static unsigned int emptyId;
+  };
+} // namespace komodo::core::ecs::entities
 
 namespace komodo::core::ecs::components
 {
 #pragma region Constructors
-  Component::Component(
-    std::weak_ptr<komodo::core::ecs::entities::Entity> parent,
-    bool isEnabled)
+  Component::Component(bool isEnabled)
   {
     this->id = nextId++;
     this->isEnabled = isEnabled;
     this->isInitialized = false;
-    this->parent = parent;
+    this->parentId = entities::Entity::emptyId;
     // this->position = Vector3();
     // this->rotation= Vector3();
     // this->scale = Vector3();
@@ -44,9 +46,9 @@ namespace komodo::core::ecs::components
     return this->isInitialized;
   }
 
-  std::weak_ptr<komodo::core::ecs::entities::Entity> Component::getParent() const
+  unsigned int Component::getParentId() const
   {
-    return this->parent;
+    return this->parentId;
   }
 
   /*TODO: Waiting on Vector3 implementation

@@ -11,11 +11,11 @@ namespace komodo::core::ecs::components
 {
   class Component
   {
+    friend class komodo::core::ecs::entities::Entity;
+
 public:
 #pragma region Constructors
-    Component(
-      std::weak_ptr<komodo::core::ecs::entities::Entity> parent,
-      bool isEnabled = true);
+    Component(bool isEnabled = true);
 #pragma endregion
 
     virtual ~Component() = 0;
@@ -28,7 +28,7 @@ public:
     unsigned int getId() const;
     bool getIsEnabled() const;
     bool getIsInitialized() const;
-    std::weak_ptr<komodo::core::ecs::entities::Entity> getParent() const;
+    unsigned int getParentId() const;
     /*TODO: Waiting on Vector3 implementation
     Vector3 getPosition() const;
     Vector3 getRotation() const;
@@ -58,7 +58,7 @@ protected:
     Vector3 position;
     Vector3 rotation;
     Vector3 scale;*/
-    std::weak_ptr<komodo::core::ecs::entities::Entity> parent;
+    unsigned int parentId;
 #pragma endregion
   };
 } // namespace komodo::core::ecs::components

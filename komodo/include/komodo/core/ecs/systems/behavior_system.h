@@ -21,6 +21,7 @@ namespace komodo::core::ecs::systems
 {
   class BehaviorSystem : public System
   {
+    friend komodo::core::ecs::entities::Entity;
 
 public:
 #pragma region Constructors
@@ -36,9 +37,6 @@ public:
 #pragma endregion
 
 #pragma region Member Methods
-    bool addComponent(
-      std::shared_ptr<komodo::core::ecs::components::BehaviorComponent>
-        component);
     void initialize();
     void postUpdate(float dt);
     void preUpdate(float dt);
@@ -56,9 +54,13 @@ private:
 #pragma endregion
 
 #pragma region Member Methods
+    bool addComponent(
+      std::shared_ptr<komodo::core::ecs::components::BehaviorComponent>
+        component);
     bool
-    addEntity(std::shared_ptr<komodo::core::ecs::entities::Entity> entityToAdd);
+    addEntity(const unsigned int entityId);
     void initializeComponents();
+    bool removeEntity(const unsigned int entityId);
 #pragma endregion
   };
 } // namespace komodo::core::ecs::systems

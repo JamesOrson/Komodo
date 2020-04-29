@@ -24,41 +24,45 @@ namespace komodo::core::ecs::systems
   bool BehaviorSystem::addComponent(
     std::shared_ptr<komodo::core::ecs::components::BehaviorComponent> component)
   {
-    if (auto parent = component->getParent().lock())
+    auto parentId = component->getParentId();
+    if (this->entities.count(parentId) == 0)
     {
-      if (this->entities.count(parent->getId()) == 0)
+      return this->addEntity(parentId);
+    }
+    else
+    {
+      component->parentId = parentId;
+      if (!component->getIsInitialized())
       {
-        return this->addEntity(parent);
+        this->uninitializedComponents.push(component);
+      }
+      this->components.push_back(component);
+      return true;
+    }
+  }
+
+  bool BehaviorSystem::addEntity(unsigned int entityId)
+  {
+    if (auto entityToAdd = entities::Entity::getEntity(entityId))
+    {
+      if (this->entities.count(entityId) == 0)
+      {
+        this->entities.insert(entityId);
+        for (auto componentToAdd : entityToAdd->getComponents())
+        {
+          if (
+            auto component = std::dynamic_pointer_cast<
+              komodo::core::ecs::components::BehaviorComponent>(componentToAdd))
+          {
+            this->addComponent(component);
+          }
+        }
+        return true;
       }
       else
       {
-        if (!component->getIsInitialized())
-        {
-          this->uninitializedComponents.push(component);
-        }
-        this->components.push_back(component);
-        return true;
+        return false;
       }
-    }
-    return false;
-  }
-
-  bool BehaviorSystem::addEntity(
-    std::shared_ptr<komodo::core::ecs::entities::Entity> entityToAdd)
-  {
-    if (entityToAdd && this->entities.count(entityToAdd->getId()) == 0)
-    {
-      this->entities[entityToAdd->getId()] = entityToAdd;
-
-      for (auto componentToAdd : entityToAdd->getComponents())
-      {
-        if (auto component = std::dynamic_pointer_cast<
-              komodo::core::ecs::components::BehaviorComponent>(componentToAdd))
-        {
-          this->addComponent(component);
-        }
-      }
-      return true;
     }
     else
     {
@@ -96,11 +100,50 @@ namespace komodo::core::ecs::systems
     this->initialize();
   }
 
+  bool BehaviorSystem::removeEntity(const unsigned int entityId)
+  {
+    if (this->entities.count(entityId) == 1)
+    {
+      if (auto entity = entities::Entity::getEntity(entityId))
+      {
+        // Remove all components from BehaviorSystem that were part of the Entity
+        for (auto component : entity->getComponents())
+        {
+          // Check that Component is of type BehaviorComponent
+          if (
+            auto componentToRemove = std::dynamic_pointer_cast<
+              komodo::core::ecs::components::BehaviorComponent>(component))
+          {
+            // Erase the component from the vector
+            this->components.erase(std::remove_if(
+              this->components.begin(),
+              this->components.end(),
+              [componentToRemove](
+                std::shared_ptr<
+                  komodo::core::ecs::components::BehaviorComponent>
+                  systemComponent) {
+                return systemComponent->getId() == componentToRemove->getId();
+              }));
+          }
+        }
+        this->entities.erase(entityId);
+        return true;
+      }
+      {
+        return false;
+      }
+    }
+    else
+    {
+      return false;
+    }
+  }
+
   void BehaviorSystem::update([[maybe_unused]] float dt)
   {
     for (auto component : this->components)
     {
-      if (auto parent = component->getParent().lock())
+      if (auto parent = entities::Entity::getEntity(component->getParentId()))
       {
         if (parent->getIsEnabled() && component->getIsEnabled())
         {

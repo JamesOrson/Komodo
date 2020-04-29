@@ -24,9 +24,7 @@ namespace komodo::core::ecs::components
 
 public:
 #pragma region Constructors
-    BehaviorComponent(
-      std::weak_ptr<komodo::core::ecs::entities::Entity> parent,
-      bool isEnabled = true);
+    BehaviorComponent(bool isEnabled = true);
 #pragma endregion
 
     virtual ~BehaviorComponent();

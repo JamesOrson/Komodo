@@ -29,7 +29,8 @@ public:
 #pragma endregion
 
 #pragma region Accessors
-    std::weak_ptr<komodo::core::ecs::systems::BehaviorSystem> getBehaviorSystem() const;
+    std::shared_ptr<komodo::core::ecs::systems::BehaviorSystem>
+    getBehaviorSystem();
     // weak_ptr<CameraSystem> getCameraSystem() const;
     // weak_ptr<Shader> getDefaultSpriteShader() const;
     float getFramesPerSecond() const;

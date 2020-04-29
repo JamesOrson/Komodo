@@ -14,8 +14,7 @@ namespace komodo::core::ecs::components
 public:
 #pragma region Constructors
     SpriteComponent(
-      std::weak_ptr<komodo::core::ecs::entities::Entity>
-        parent /*, Texture texture, Effect shader*/,
+      /*, Texture texture, Effect shader,*/
       bool isBillboard = false,
       bool isEnabled = true);
     /*SpriteComponent(std::weak_ptr<komodo::core::ecs::entities::Entity>
