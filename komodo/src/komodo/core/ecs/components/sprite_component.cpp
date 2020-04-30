@@ -1,50 +1,65 @@
 #include <komodo/core/ecs/components/sprite_component.h>
+#include <komodo/core/ecs/components/drawable_2d_component.h>
+#include <spdlog/spdlog.h>
 
 namespace komodo::core::ecs::components
 {
-#pragma region Constructors
+#pragma region Constructors  
   SpriteComponent::SpriteComponent(
     /*, Texture texture, Effect shader,*/
     bool isBillboard,
     bool isEnabled)
     : Drawable2DComponent(isBillboard, isEnabled)
   {
-    /*TODO: Waiting on Texture implementation
-    this->texture = texture;*/
+
   }
-  /*TODO: Waiting on Texture implementation
-  SpriteComponent::SpriteComponent(std::weak_ptr<komodo::core::ecs::entities::Entity>
-  parent, string texturePath, Effect shader) : Drawable2DComponent(parent)
+  
+  SpriteComponent::SpriteComponent(
+    std::string texturePath,
+    /*, Texture texture, Effect shader,*/
+    bool isBillboard,
+    bool isEnabled)
+    : Drawable2DComponent(isBillboard, isEnabled)
   {
-      this->texture = texture;
-  }*/
+    if (!this->texture.loadFromFile(texturePath))
+    {
+      spdlog::critical("Failed to load texture from path: {}", texturePath);
+    }
+    else
+    {
+      this->refreshSprite();
+    }
+  }
 #pragma endregion
 
   SpriteComponent::~SpriteComponent() {}
 
 #pragma region Accessors
-  /*TODO: Waiting on Vector2 implementation
-  virtual Vector2 getCenter() const;*/
   float SpriteComponent::getHeight() const
   {
     return 0.0f;
-    /*TODO: Waiting on Texture implementation
-    return this->texture.height * this->scale.y;*/
   }
+  
+  sf::Sprite SpriteComponent::getSprite() const
+  {
+    return this->sprite;
+  }
+
+  std::string SpriteComponent::getTexturePath() const
+  {
+    return "";
+  }
+  
   float SpriteComponent::getWidth() const
   {
     return 0.0f;
-    /*TODO: Waiting on Texture implementation
-    return this->texture.width * this->scale.x;*/
   }
 #pragma endregion
 
-#pragma region Mutators
-  /*TODO: Waiting on Texture implementation
-  void setTexture(Texture value)
+#pragma region Member Methods
+  void SpriteComponent::refreshSprite()
   {
-      this->texture = texture;
+    this->sprite.setTexture(this->texture);
   }
-  */
 #pragma endregion
 } // namespace komodo::core::ecs::components

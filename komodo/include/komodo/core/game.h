@@ -10,7 +10,7 @@
 
 namespace komodo::core::ecs::systems
 {
-    class BehaviorSystem;
+  class BehaviorSystem;
 }
 
 namespace komodo::core
@@ -42,6 +42,7 @@ public:
     std::string getScreenDeviceName() const;
     // weak_ptr<SoundSystem> getSoundSystem() const;
     std::string getTitle() const;
+    std::shared_ptr<sf::RenderWindow> getWindow() const;
 #pragma endregion
 
 #pragma region Mutators
@@ -72,14 +73,13 @@ public:
     // std::shared_ptr<function<bool(KeyUpArgs args)>> handler); int
     // addTextInputEvent(const std::shared_ptr<function<bool(TextInputEventArgs
     // args)>> handler); int addWindowSizeChangedEvent(const
-    // std::shared_ptr<function<bool(WindowSizeChangedEventArgs args)>> handler);
-    // bool removeExitingEvent(const int handlerId);
-    // bool removeFocusGainedEvent(const int handlerId);
-    // bool removeFocusLostEvent(const int handlerId);
-    // bool removeKeyDownEvent(const int handlerId);
-    // bool removeScreenDeviceNameChangedEvent(const int handlerId);
-    // bool removeTextInputEvent(const int handlerId);
-    // bool removeWindowSizeChangedEvent(const int handlerId);
+    // std::shared_ptr<function<bool(WindowSizeChangedEventArgs args)>>
+    // handler); bool removeExitingEvent(const int handlerId); bool
+    // removeFocusGainedEvent(const int handlerId); bool
+    // removeFocusLostEvent(const int handlerId); bool removeKeyDownEvent(const
+    // int handlerId); bool removeScreenDeviceNameChangedEvent(const int
+    // handlerId); bool removeTextInputEvent(const int handlerId); bool
+    // removeWindowSizeChangedEvent(const int handlerId);
 #pragma endregion
 
 #pragma endregion
@@ -101,7 +101,6 @@ private:
     // SoundSystem soundSystem;
     std::string title;
     std::shared_ptr<sf::RenderWindow> window;
-
 #pragma endregion
   };
 } // namespace komodo::core

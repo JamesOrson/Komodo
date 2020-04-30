@@ -129,6 +129,7 @@ namespace komodo::core::ecs::systems
         this->entities.erase(entityId);
         return true;
       }
+      else
       {
         return false;
       }

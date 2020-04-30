@@ -1,4 +1,5 @@
 #include <komodo/core/game.h>
+#include <komodo/core/ecs/components/sprite_component.h>
 
 #include <iostream>
 #include <spdlog/spdlog.h>
@@ -14,7 +15,8 @@ namespace komodo::core
 
     // this->content = std::make_shared<ContentManager>(...params...);
 
-    this->behaviorSystem = std::make_shared<komodo::core::ecs::systems::BehaviorSystem>();
+    this->behaviorSystem =
+      std::make_shared<komodo::core::ecs::systems::BehaviorSystem>();
     // this->cameraSystem = std::make_shared<CameraSystem>(...params...);
     // this->physicsSystems =
     // std::make_shared<PhysicsSystem>(...params...); this->soundSystem =
@@ -42,7 +44,7 @@ namespace komodo::core
 
     // Clears the screen for next set of draws
     this->window->clear(clearColor);
-    
+
     // TODO: Call drawable systems
 
     // Blits the frame to the window
@@ -105,7 +107,8 @@ namespace komodo::core
 #pragma endregion
 
 #pragma region Accessors
-  std::shared_ptr<komodo::core::ecs::systems::BehaviorSystem> Game::getBehaviorSystem()
+  std::shared_ptr<komodo::core::ecs::systems::BehaviorSystem>
+  Game::getBehaviorSystem()
   {
     return this->behaviorSystem;
   }

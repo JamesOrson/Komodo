@@ -2,7 +2,9 @@
 
 #include <komodo/core/ecs/components/drawable_2d_component.h>
 #include <komodo/core/ecs/entities/entity.h>
+#include <SFML/Graphics.hpp>
 #include <memory>
+#include <string>
 
 class Drawable2DComponent;
 class Entity;
@@ -17,8 +19,11 @@ public:
       /*, Texture texture, Effect shader,*/
       bool isBillboard = false,
       bool isEnabled = true);
-    /*SpriteComponent(std::weak_ptr<komodo::core::ecs::entities::Entity>
-     * parent, string texturePath, Effect shader);*/
+    SpriteComponent(
+      std::string texturePath,
+      /*, Texture texture, Effect shader,*/
+      bool isBillboard = false,
+      bool isEnabled = true);
 #pragma endregion
 
     ~SpriteComponent();
@@ -31,8 +36,8 @@ public:
     Effect getShader() const;*/
     /*TODO: Waiting on Texture implementation
     Texture getTexture() const;
-    std:;string getTexturePath() const
     */
+    std::string getTexturePath() const;
     float getWidth() const;
 #pragma endregion
 
@@ -41,10 +46,17 @@ public:
     void setTexture(Texture value);*/
 #pragma endregion
 
+private:
 #pragma region Members
     /*TODO: Waiting on texture implementation
-    Texture texture;
-    string texturePath;*/
+    Texture texture;*/
+    sf::Sprite sprite;
+    sf::Texture texture;
+    std::string texturePath;
+#pragma endregion
+
+#pragma region Member Methods
+    void refreshSprite();
 #pragma endregion
   };
 } // namespace komodo::core::ecs::components
