@@ -1,5 +1,4 @@
 #include <komodo/core/ecs/components/behavior_component.h>
-#include <komodo/core/ecs/components/component.h>
 
 namespace komodo::core::ecs::components
 {

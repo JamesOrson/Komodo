@@ -1,6 +1,4 @@
 #include <komodo/core/ecs/components/sprite_component.h>
-#include <komodo/core/ecs/components/drawable_2d_component.h>
-#include <spdlog/spdlog.h>
 
 namespace komodo::core::ecs::components
 {
@@ -38,11 +36,6 @@ namespace komodo::core::ecs::components
   float SpriteComponent::getHeight() const
   {
     return 0.0f;
-  }
-  
-  sf::Sprite SpriteComponent::getSprite() const
-  {
-    return this->sprite;
   }
 
   std::string SpriteComponent::getTexturePath() const

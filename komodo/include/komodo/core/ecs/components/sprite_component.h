@@ -1,18 +1,18 @@
 #pragma once
 
 #include <komodo/core/ecs/components/drawable_2d_component.h>
-#include <komodo/core/ecs/entities/entity.h>
-#include <SFML/Graphics.hpp>
-#include <memory>
-#include <string>
 
-class Drawable2DComponent;
-class Entity;
+#include <memory>
+#include <SFML/Graphics.hpp>
+#include <spdlog/spdlog.h>
+#include <string>
 
 namespace komodo::core::ecs::components
 {
   class SpriteComponent : public Drawable2DComponent
   {
+    friend komodo::core::ecs::systems::Render2DSystem;
+
 public:
 #pragma region Constructors
     SpriteComponent(

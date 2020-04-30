@@ -1,20 +1,20 @@
 #pragma once
 
 #include <komodo/core/ecs/components/component.h>
-#include <komodo/core/ecs/entities/entity.h>
+
 #include <memory>
 
-class Component;
-/*TODO: Waiting on Drawable2DSystem implementation
-class Drawable2DSystem;*/
-class Entity;
+namespace komodo::core::ecs::systems
+{
+  class Render2DSystem;
+} // namespace komodo::core::ecs
 
 namespace komodo::core::ecs::components
 {
   class Drawable2DComponent : public Component
   {
-    /*TODO: Waiting on Drawable2DSystem implementation
-    friend class Drawable2DSystem;*/
+    friend komodo::core::ecs::systems::Render2DSystem;
+
 public:
 #pragma region Constructors
     Drawable2DComponent(

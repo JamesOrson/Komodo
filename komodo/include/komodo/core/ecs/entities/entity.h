@@ -1,6 +1,7 @@
 #pragma once
 
-#include <komodo/core/game.h>
+#include <komodo/core/ecs/components/behavior_component.h>
+
 #include <memory>
 #include <unordered_map>
 
@@ -8,15 +9,9 @@ namespace komodo::core
 {
   class Game;
 
-  namespace ecs::components
-  {
-    class Component;
-    class BehaviorComponent;
-  } // namespace ecs::components
-
   namespace ecs::systems
   {
-    class BehaviorSystem;
+    class Render2DSystem;
   } // namespace ecs::systems
 } // namespace komodo::core
 
@@ -25,6 +20,7 @@ namespace komodo::core::ecs::entities
   class Entity
   {
     friend komodo::core::ecs::systems::BehaviorSystem;
+    friend komodo::core::ecs::systems::Render2DSystem;
 
 public:
 #pragma region Constructors

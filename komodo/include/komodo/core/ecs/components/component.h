@@ -4,7 +4,7 @@
 
 namespace komodo::core::ecs::entities
 {
-    class Entity;
+  class Entity;
 }
 
 namespace komodo::core::ecs::components

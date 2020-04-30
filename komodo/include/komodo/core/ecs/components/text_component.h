@@ -2,10 +2,8 @@
 
 #include <komodo/core/ecs/components/drawable_2d_component.h>
 #include <komodo/core/ecs/entities/entity.h>
-#include <memory>
 
-class Drawable2DComponent;
-class Entity;
+#include <memory>
 
 namespace komodo::core::ecs::components
 {

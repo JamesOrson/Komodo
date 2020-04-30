@@ -1,8 +1,4 @@
 #include <komodo/core/game.h>
-#include <komodo/core/ecs/components/sprite_component.h>
-
-#include <iostream>
-#include <spdlog/spdlog.h>
 
 namespace komodo::core
 {
@@ -21,10 +17,6 @@ namespace komodo::core
     // this->physicsSystems =
     // std::make_shared<PhysicsSystem>(...params...); this->soundSystem =
     // std::make_shared<SoundSystem>(...params...);
-
-    // this->render2DSystems =
-    // std::make_shared<std::vector<Render2DSystem>>(); this->render3DSystems
-    // = std::make_shared<std::vector<Render3DSystem>>();
   }
 #pragma endregion
 
@@ -38,6 +30,15 @@ namespace komodo::core
 #pragma endregion
 
 #pragma region Member Methods
+  std::shared_ptr<komodo::core::ecs::systems::Render2DSystem>
+    Game::createRender2DSystem()
+  {
+    auto system =
+      std::make_shared<komodo::core::ecs::systems::Render2DSystem>();
+    this->render2DSystems.push_back(system);
+    return system;
+  }
+
   void Game::draw([[maybe_unused]] float dt, sf::Color clearColor)
   {
     spdlog::info("FPS: {}", this->framesPerSecond);
@@ -46,6 +47,10 @@ namespace komodo::core
     this->window->clear(clearColor);
 
     // TODO: Call drawable systems
+    for (auto system : this->render2DSystems)
+    {
+      system->draw(dt);
+    }
 
     // Blits the frame to the window
     this->window->display();

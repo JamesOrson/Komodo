@@ -1,10 +1,4 @@
-#include <komodo/core/ecs/entities/entity.h>
 #include <komodo/core/ecs/systems/system.h>
-#include <komodo/core/game.h>
-#include <memory>
-#include <vector>
-
-using namespace komodo::core::ecs::entities;
 
 namespace komodo::core::ecs::systems
 {

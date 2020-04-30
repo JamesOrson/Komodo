@@ -1,8 +1,23 @@
 #include <komodo/core/ecs/entities/entity.h>
+#include <komodo/core/ecs/systems/behavior_system.h>
+#include <komodo/core/game.h>
 
-namespace komodo::core::ecs::components
+namespace komodo::core
 {
-  class BehaviorComponent;
+  class Game;
+
+  namespace ecs
+  {
+    namespace components
+    {
+      class BehaviorComponent;
+    }
+
+    namespace systems
+    {
+      class BehaviorSystem;
+    }
+  }
 }
 
 namespace komodo::core::ecs::entities
@@ -31,7 +46,7 @@ namespace komodo::core::ecs::entities
   }
 
 #pragma region Static Members
-  std::unordered_map<unsigned int, Entity*> Entity::entityStore;
+  std::unordered_map<unsigned int, Entity *> Entity::entityStore;
   unsigned int Entity::nextId = 1u;
   unsigned int Entity::emptyId = 0u;
 #pragma endregion
@@ -43,7 +58,7 @@ namespace komodo::core::ecs::entities
     return this->components;
   }
 
-  komodo::core::Game& Entity::getGame() const
+  komodo::core::Game &Entity::getGame() const
   {
     return this->game;
   }
@@ -145,7 +160,7 @@ namespace komodo::core::ecs::entities
 #pragma endregion
 
 #pragma region Static Member Methods
-  Entity* Entity::getEntity(unsigned int entityId)
+  Entity *Entity::getEntity(unsigned int entityId)
   {
     if (entityStore.count(entityId) == 1)
     {

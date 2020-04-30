@@ -1,17 +1,15 @@
 #pragma once
 
+#include <komodo/core/ecs/systems/behavior_system.h>
+#include <komodo/core/ecs/systems/render_2d_system.h>
+
+#include <iostream>
 #include <memory>
 #include <SFML/Graphics.hpp>
 #include <SFML/System.hpp>
 #include <SFML/Window.hpp>
+#include <spdlog/spdlog.h>
 #include <string>
-
-#include <komodo/core/ecs/systems/behavior_system.h>
-
-namespace komodo::core::ecs::systems
-{
-  class BehaviorSystem;
-}
 
 namespace komodo::core
 {
@@ -56,6 +54,7 @@ public:
     // std::shared_ptr<Render2DSystem> createRender2DSystem();
     // std::shared_ptr<Render3DSystem> createRender3DSystem();
 
+    std::shared_ptr<komodo::core::ecs::systems::Render2DSystem> createRender2DSystem();
     void draw(float dt, sf::Color clearColor = sf::Color(0u, 100u, 100u));
     void exit();
     void initialize();
@@ -94,7 +93,8 @@ private:
     // GraphicsManager graphicsManager;
     bool isActive = true;
     // vector<PhysicsSystem> physicsSystems;
-    // vector<Render2DSystem> render2DSystems;
+    std::vector<std::shared_ptr<komodo::core::ecs::systems::Render2DSystem>>
+      render2DSystems;
     // vector<Render2DSystem> render2DSystems;
     std::string screenDeviceName;
     bool shouldClose = false;

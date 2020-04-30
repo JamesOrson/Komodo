@@ -1,24 +1,24 @@
-#include <komodo/core/ecs/systems/behavior_system.h>
+#include <komodo/core/ecs/systems/render_2d_system.h>
 
 namespace komodo::core::ecs::systems
 {
 #pragma region Constructors
-  BehaviorSystem::BehaviorSystem() {}
+  Render2DSystem::Render2DSystem() {}
 #pragma endregion
 
-  BehaviorSystem::~BehaviorSystem() {}
+  Render2DSystem::~Render2DSystem() {}
 
 #pragma region Accessors
-  std::vector<std::shared_ptr<komodo::core::ecs::components::BehaviorComponent>>
-  BehaviorSystem::getComponents() const
+  std::vector<std::shared_ptr<komodo::core::ecs::components::Drawable2DComponent>>
+  Render2DSystem::getComponents() const
   {
     return this->components;
   }
 #pragma endregion
 
 #pragma region Member Methods
-  bool BehaviorSystem::addComponent(
-    std::shared_ptr<komodo::core::ecs::components::BehaviorComponent> component)
+  bool Render2DSystem::addComponent(
+    std::shared_ptr<komodo::core::ecs::components::Drawable2DComponent> component)
   {
     auto parentId = component->getParentId();
     if (this->entities.count(parentId) == 0)
@@ -37,7 +37,7 @@ namespace komodo::core::ecs::systems
     }
   }
 
-  bool BehaviorSystem::addEntity(unsigned int entityId)
+  bool Render2DSystem::addEntity(unsigned int entityId)
   {
     if (auto entityToAdd = entities::Entity::getEntity(entityId))
     {
@@ -48,7 +48,7 @@ namespace komodo::core::ecs::systems
         {
           if (
             auto component = std::dynamic_pointer_cast<
-              komodo::core::ecs::components::BehaviorComponent>(componentToAdd))
+              komodo::core::ecs::components::Drawable2DComponent>(componentToAdd))
           {
             this->addComponent(component);
           }
@@ -66,13 +66,33 @@ namespace komodo::core::ecs::systems
     }
   }
 
-  void BehaviorSystem::initialize()
+  void Render2DSystem::draw([[maybe_unused]] float dt)
+  {
+    for (auto component : this->components)
+    {
+      if (auto parent = entities::Entity::getEntity(component->getParentId()))
+      {
+        if (parent->getIsEnabled() && component->getIsEnabled())
+        {
+          this->drawComponent(component);
+        }
+      }
+    }
+  }
+
+  void Render2DSystem::drawComponent(
+    std::shared_ptr<komodo::core::ecs::components::Drawable2DComponent> component)
+  {
+
+  }
+
+  void Render2DSystem::initialize()
   {
     this->isInitialized = true;
     this->initializeComponents();
   }
 
-  void BehaviorSystem::initializeComponents()
+  void Render2DSystem::initializeComponents()
   {
     while (!this->uninitializedComponents.empty())
     {
@@ -80,23 +100,12 @@ namespace komodo::core::ecs::systems
       if (!component->getIsInitialized())
       {
         component->isInitialized = true;
-        component->initialize();
       }
       this->uninitializedComponents.pop();
     }
   }
 
-  void BehaviorSystem::postUpdate([[maybe_unused]] float dt)
-  {
-    this->initialize();
-  }
-
-  void BehaviorSystem::preUpdate([[maybe_unused]] float dt)
-  {
-    this->initialize();
-  }
-
-  bool BehaviorSystem::removeEntity(const unsigned int entityId)
+  bool Render2DSystem::removeEntity(const unsigned int entityId)
   {
     if (this->entities.count(entityId) == 1)
     {
@@ -116,7 +125,7 @@ namespace komodo::core::ecs::systems
               this->components.end(),
               [componentToRemove](
                 std::shared_ptr<
-                  komodo::core::ecs::components::BehaviorComponent>
+                  komodo::core::ecs::components::Drawable2DComponent>
                   systemComponent) {
                 return systemComponent->getId() == componentToRemove->getId();
               }));
@@ -133,20 +142,6 @@ namespace komodo::core::ecs::systems
     else
     {
       return false;
-    }
-  }
-
-  void BehaviorSystem::update([[maybe_unused]] float dt)
-  {
-    for (auto component : this->components)
-    {
-      if (auto parent = entities::Entity::getEntity(component->getParentId()))
-      {
-        if (parent->getIsEnabled() && component->getIsEnabled())
-        {
-          component->update(dt);
-        }
-      }
     }
   }
 #pragma endregion

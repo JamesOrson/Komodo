@@ -7,6 +7,7 @@ int main(/*int argc, const char **argv*/)
 {
   auto game = komodo::core::Game();
   auto entity = komodo::core::ecs::entities::Entity(game);
+  auto system = game.createRender2DSystem();
   auto component = komodo::core::ecs::components::SpriteComponent(std::string("../../assets/player.png"));
   game.run();
 

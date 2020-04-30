@@ -1,15 +1,11 @@
 #pragma once
 
 #include <komodo/core/ecs/components/component.h>
+
 #include <memory>
 
 namespace komodo::core::ecs
 {
-  namespace entities
-  {
-    class Entity;
-  }
-
   namespace systems
   {
     class BehaviorSystem;
