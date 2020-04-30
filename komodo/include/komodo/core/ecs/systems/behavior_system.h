@@ -16,7 +16,7 @@ namespace komodo::core::ecs::systems
 
 public:
 #pragma region Constructors
-    BehaviorSystem();
+    BehaviorSystem(komodo::core::Game &game);
 #pragma endregion
      
     virtual ~BehaviorSystem();

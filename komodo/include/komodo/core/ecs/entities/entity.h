@@ -1,6 +1,7 @@
 #pragma once
 
 #include <komodo/core/ecs/components/behavior_component.h>
+#include <komodo/core/ecs/components/drawable_2d_component.h>
 
 #include <memory>
 #include <unordered_map>
@@ -40,6 +41,8 @@ public:
     komodo::core::Game &getGame() const;
     unsigned int getId() const;
     bool getIsEnabled() const;
+    std::shared_ptr<komodo::core::ecs::systems::Render2DSystem>
+    getRender2DSystem() const;
     /*TODO: Waiting on Vector3 implementation
     Vector3 getPosition() const;
     Vector3 getRotation() const;
@@ -48,6 +51,8 @@ public:
 
 #pragma region Mutators
     void setIsEnabled(bool value);
+    void setRender2DSystem(
+      std::shared_ptr<komodo::core::ecs::systems::Render2DSystem> value);
     /*TODO: Waiting on Vector3 implementation
     void setPosition(Vector3 value);
     void setRotation(Vector3 value);
@@ -58,6 +63,9 @@ public:
     bool addComponent(
       std::shared_ptr<komodo::core::ecs::components::BehaviorComponent>
         component);
+    bool addComponent(
+      std::shared_ptr<komodo::core::ecs::components::Drawable2DComponent>
+        component);
     bool clearComponents();
     /*TODO: Waiting on Matrix implementation
     Matrix getRotationMatrix() const;*/
@@ -66,16 +74,16 @@ public:
     bool removeComponent(unsigned int componentId);
 #pragma endregion
 
-  private:
+private:
 #pragma region Members
     std::vector<std::shared_ptr<komodo::core::ecs::components::Component>>
       components;
     komodo::core::Game &game;
     unsigned int id;
     bool isEnabled;
+    std::shared_ptr<komodo::core::ecs::systems::Render2DSystem> render2DSystem;
     /*TODO: Waiting on System implementation
     std::weak_ptr<PhysicsSystem> physicsSystem;
-    std::weak_ptr<Render2DSystem> render2DSystem;
     std::weak_ptr<Render3DSystem> render3DSystem;
     */
     /*TODO: Waiting on Vector3 implementation
@@ -86,7 +94,7 @@ public:
 #pragma endregion Members
 
 #pragma region Static Members
-    static std::unordered_map<unsigned int, Entity*> entityStore;
+    static std::unordered_map<unsigned int, Entity *> entityStore;
 #pragma endregion
 
 #pragma region Static Member Methods

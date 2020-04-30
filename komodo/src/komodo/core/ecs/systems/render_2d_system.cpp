@@ -3,7 +3,9 @@
 namespace komodo::core::ecs::systems
 {
 #pragma region Constructors
-  Render2DSystem::Render2DSystem() {}
+  Render2DSystem::Render2DSystem(komodo::core::Game &game)
+    : System(game)
+  {}
 #pragma endregion
 
   Render2DSystem::~Render2DSystem() {}
@@ -83,7 +85,10 @@ namespace komodo::core::ecs::systems
   void Render2DSystem::drawComponent(
     std::shared_ptr<komodo::core::ecs::components::Drawable2DComponent> component)
   {
-
+    if (auto spriteComponent = std::dynamic_pointer_cast < komodo::core::ecs::components::SpriteComponent>(component))
+    {
+      this->game.getWindow()->draw(spriteComponent->sprite);
+    }
   }
 
   void Render2DSystem::initialize()

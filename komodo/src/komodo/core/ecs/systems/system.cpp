@@ -3,7 +3,8 @@
 namespace komodo::core::ecs::systems
 {
 #pragma region Constructors
-  System::System()
+  System::System(komodo::core::Game &game)
+    : game(game)
   {
     this->isInitialized = false;
   }

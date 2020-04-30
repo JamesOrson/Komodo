@@ -3,7 +3,9 @@
 namespace komodo::core::ecs::systems
 {
 #pragma region Constructors
-  BehaviorSystem::BehaviorSystem() {}
+  BehaviorSystem::BehaviorSystem(komodo::core::Game &game)
+    : System(game)
+  {}
 #pragma endregion
 
   BehaviorSystem::~BehaviorSystem() {}

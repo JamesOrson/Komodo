@@ -12,7 +12,7 @@ namespace komodo::core
     // this->content = std::make_shared<ContentManager>(...params...);
 
     this->behaviorSystem =
-      std::make_shared<komodo::core::ecs::systems::BehaviorSystem>();
+      std::make_shared<komodo::core::ecs::systems::BehaviorSystem>(*this);
     // this->cameraSystem = std::make_shared<CameraSystem>(...params...);
     // this->physicsSystems =
     // std::make_shared<PhysicsSystem>(...params...); this->soundSystem =
@@ -34,7 +34,7 @@ namespace komodo::core
     Game::createRender2DSystem()
   {
     auto system =
-      std::make_shared<komodo::core::ecs::systems::Render2DSystem>();
+      std::make_shared<komodo::core::ecs::systems::Render2DSystem>(*this);
     this->render2DSystems.push_back(system);
     return system;
   }
@@ -46,7 +46,6 @@ namespace komodo::core
     // Clears the screen for next set of draws
     this->window->clear(clearColor);
 
-    // TODO: Call drawable systems
     for (auto system : this->render2DSystems)
     {
       system->draw(dt);
@@ -163,6 +162,11 @@ namespace komodo::core
   std::string Game::getTitle() const
   {
     return this->title;
+  }
+
+  std::shared_ptr<sf::RenderWindow> Game::getWindow() const
+  {
+    return this->window;
   }
 #pragma endregion
 

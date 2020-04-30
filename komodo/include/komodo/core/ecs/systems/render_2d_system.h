@@ -5,6 +5,7 @@
 #include <komodo/core/ecs/components/text_component.h>
 #include <komodo/core/ecs/entities/entity.h>
 #include <komodo/core/ecs/systems/system.h>
+#include <komodo/core/game.h>
 
 #include <memory>
 #include <queue>
@@ -18,7 +19,7 @@ namespace komodo::core::ecs::systems
 
 public:
 #pragma region Constructors
-    Render2DSystem();
+    Render2DSystem(komodo::core::Game &game);
 #pragma endregion
 
     virtual ~Render2DSystem();

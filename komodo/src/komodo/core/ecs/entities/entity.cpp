@@ -95,6 +95,12 @@ namespace komodo::core::ecs::entities
   {
     this->isEnabled = value;
   }
+  
+  void Entity::setRender2DSystem(
+    std::shared_ptr<komodo::core::ecs::systems::Render2DSystem> value)
+  {
+    this->render2DSystem = value;
+  }
 
   /*TODO: Waiting on Vector3 implementation
   void setPosition(Vector3 value)
@@ -124,9 +130,25 @@ namespace komodo::core::ecs::entities
     }
     component->parentId = this->id;
     this->components.push_back(component);
-    if (auto behaviorSystem = this->game.getBehaviorSystem())
+    if (auto system = this->game.getBehaviorSystem())
     {
-      return behaviorSystem->addComponent(component);
+      return system->addComponent(component);
+    }
+    return false;
+  }
+
+  bool Entity::addComponent(
+    std::shared_ptr<komodo::core::ecs::components::Drawable2DComponent> component)
+  {
+    if (auto parent = getEntity(component->getParentId()))
+    {
+      parent->removeComponent(component->getId());
+    }
+    component->parentId = this->id;
+    this->components.push_back(component);
+    if (auto system = this->render2DSystem)
+    {
+      return system->addComponent(component);
     }
     return false;
   }
