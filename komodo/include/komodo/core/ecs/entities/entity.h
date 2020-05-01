@@ -36,6 +36,10 @@ public:
     static unsigned int emptyId;
 #pragma endregion
 
+#pragma region Static Member Methods
+    static Entity *getEntity(unsigned int entityId);
+#pragma endregion
+
 #pragma region Accessors
     std::vector<std::shared_ptr<komodo::core::ecs::components::Component>>
     getComponents() const;
@@ -96,10 +100,6 @@ private:
 
 #pragma region Static Members
     static std::unordered_map<unsigned int, Entity *> entityStore;
-#pragma endregion
-
-#pragma region Static Member Methods
-    static Entity *getEntity(unsigned int entityId);
 #pragma endregion
   };
 } // namespace komodo::core::ecs::entities

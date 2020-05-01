@@ -1,6 +1,6 @@
 add_subdirectory(
-  circle
+  sprite
 )
 add_subdirectory(
-  simple_behavior
+  move_behavior
 )

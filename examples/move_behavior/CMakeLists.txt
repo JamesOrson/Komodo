@@ -1,9 +1,9 @@
 add_executable(
-  simple_behavior
+  move_behavior
   main.cpp
 )
 
 target_link_libraries(
-  simple_behavior
+  move_behavior
   komodo
 )

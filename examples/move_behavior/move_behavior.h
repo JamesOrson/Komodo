@@ -6,26 +6,34 @@
 #include <iostream>
 #include <spdlog/spdlog.h>
 
-class SimpleBehavior : public komodo::core::ecs::components::BehaviorComponent
+class MoveBehavior : public komodo::core::ecs::components::BehaviorComponent
 {
-  /*TODO: Waiting on BehaviorSystem implementation
-  friend class BehaviorSystem;*/
   public:
 #pragma region Constructors
-  SimpleBehavior(bool isEnabled = true)
+  MoveBehavior(bool isEnabled = true)
     : komodo::core::ecs::components::BehaviorComponent(isEnabled)
   {}
 #pragma endregion
 
-  virtual ~SimpleBehavior()
+  virtual ~MoveBehavior()
   {
     std::cout << "Deleting\n";
+  }
+
+  void initialize()
+  {
+    this->parent =
+      komodo::core::ecs::entities::Entity::getEntity(this->parentId);
   }
 
 #pragma region Member Methods
   void update([[maybe_unused]] float dt)
   {
-    std::cout << "Updating\n";
   }
+#pragma endregion
+
+  private:
+#pragma region Members
+  komodo::core::ecs::entities::Entity *parent;
 #pragma endregion
 };

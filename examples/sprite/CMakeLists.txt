@@ -1,10 +1,10 @@
 add_executable(
-  circle
+  sprite
   main.cpp
 )
 
 target_link_libraries(
-  circle
+  sprite
   komodo
 )
 
