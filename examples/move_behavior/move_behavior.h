@@ -34,6 +34,6 @@ class MoveBehavior : public komodo::core::ecs::components::BehaviorComponent
 
   private:
 #pragma region Members
-  komodo::core::ecs::entities::Entity *parent;
+  std::shared_ptr<komodo::core::ecs::entities::Entity> parent;
 #pragma endregion
 };

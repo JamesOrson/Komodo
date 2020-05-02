@@ -31,8 +31,6 @@ namespace komodo::core::ecs::entities
     // this->position = Vector3();
     // this->rotation= Vector3();
     // this->scale = Vector3();
-
-    entityStore[this->id] = this;
   }
 #pragma endregion
 
@@ -46,7 +44,7 @@ namespace komodo::core::ecs::entities
   }
 
 #pragma region Static Members
-  std::unordered_map<unsigned int, Entity *> Entity::entityStore;
+  std::unordered_map<unsigned int, std::shared_ptr<Entity>> Entity::entityStore;
   unsigned int Entity::nextId = 1u;
   unsigned int Entity::emptyId = 0u;
 #pragma endregion
@@ -182,7 +180,15 @@ namespace komodo::core::ecs::entities
 #pragma endregion
 
 #pragma region Static Member Methods
-  Entity *Entity::getEntity(unsigned int entityId)
+  std::shared_ptr<Entity> Entity::create(komodo::core::Game &game)
+  {
+    auto entity = std::shared_ptr<Entity>(new Entity(game));
+    entityStore[entity->getId()] = entity;
+
+    return entity;
+  }
+
+  std::shared_ptr<Entity> Entity::getEntity(unsigned int entityId)
   {
     if (entityStore.count(entityId) == 1)
     {

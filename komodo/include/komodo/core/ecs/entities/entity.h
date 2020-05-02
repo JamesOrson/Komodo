@@ -25,10 +25,6 @@ namespace komodo::core::ecs::entities
     friend komodo::core::ecs::systems::Render2DSystem;
 
 public:
-#pragma region Constructors
-    Entity(komodo::core::Game &game);
-#pragma endregion
-
     ~Entity();
 
 #pragma region Static Members
@@ -37,7 +33,8 @@ public:
 #pragma endregion
 
 #pragma region Static Member Methods
-    static Entity *getEntity(unsigned int entityId);
+    static std::shared_ptr<Entity> create(komodo::core::Game &game);
+    static std::shared_ptr<Entity> getEntity(unsigned int entityId);
 #pragma endregion
 
 #pragma region Accessors
@@ -80,6 +77,10 @@ public:
 #pragma endregion
 
 private:
+#pragma region Constructors
+    Entity(komodo::core::Game &game);
+#pragma endregion
+
 #pragma region Members
     std::vector<std::shared_ptr<komodo::core::ecs::components::Component>>
       components;
@@ -99,7 +100,8 @@ private:
 #pragma endregion Members
 
 #pragma region Static Members
-    static std::unordered_map<unsigned int, Entity *> entityStore;
+    static std::unordered_map<unsigned int, std::shared_ptr<Entity>>
+      entityStore;
 #pragma endregion
   };
 } // namespace komodo::core::ecs::entities

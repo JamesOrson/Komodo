@@ -9,17 +9,17 @@
 int main()
 {
   auto game = komodo::core::Game();
-  auto entity = komodo::core::ecs::entities::Entity(game);
+  auto entity = komodo::core::ecs::entities::Entity::create(game);
   auto system = game.createRender2DSystem();
-  entity.setRender2DSystem(system);
+  entity->setRender2DSystem(system);
   auto spriteComponent =
     std::make_shared<komodo::core::ecs::components::SpriteComponent>(
       std::string("../../assets/player.png"));
-  entity.addComponent(
+  entity->addComponent(
     std::dynamic_pointer_cast<
       komodo::core::ecs::components::Drawable2DComponent>(spriteComponent));
   auto moveComponent = std::make_shared<MoveBehavior>();
-  entity.addComponent(
+  entity->addComponent(
     std::dynamic_pointer_cast<komodo::core::ecs::components::BehaviorComponent>(
       moveComponent));
   game.run();
