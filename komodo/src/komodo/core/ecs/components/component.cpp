@@ -46,6 +46,11 @@ namespace komodo::core::ecs::components
     return this->isInitialized;
   }
 
+  std::shared_ptr<komodo::core::ecs::entities::Entity> Component::getParent() const
+  {
+    return this->parent;
+  }
+
   unsigned int Component::getParentId() const
   {
     return this->parentId;

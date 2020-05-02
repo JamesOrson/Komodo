@@ -127,6 +127,7 @@ namespace komodo::core::ecs::entities
       parent->removeComponent(component->getId());
     }
     component->parentId = this->id;
+    component->parent = entityStore[component->parentId];
     this->components.push_back(component);
     if (auto system = this->game.getBehaviorSystem())
     {

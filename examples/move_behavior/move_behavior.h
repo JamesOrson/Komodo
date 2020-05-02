@@ -22,18 +22,11 @@ class MoveBehavior : public komodo::core::ecs::components::BehaviorComponent
 
   void initialize()
   {
-    this->parent =
-      komodo::core::ecs::entities::Entity::getEntity(this->parentId);
   }
 
 #pragma region Member Methods
   void update([[maybe_unused]] float dt)
   {
   }
-#pragma endregion
-
-  private:
-#pragma region Members
-  std::shared_ptr<komodo::core::ecs::entities::Entity> parent;
 #pragma endregion
 };
