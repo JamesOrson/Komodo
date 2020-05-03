@@ -29,7 +29,6 @@ namespace komodo::core::ecs::systems
     }
     else
     {
-      component->parentId = parentId;
       if (!component->getIsInitialized())
       {
         this->uninitializedComponents.push(component);
@@ -116,13 +115,13 @@ namespace komodo::core::ecs::systems
     {
       if (auto entity = entities::Entity::getEntity(entityId))
       {
-        // Remove all components from BehaviorSystem that were part of the Entity
+        // Remove all components from Render2DSystem that were part of the Entity
         for (auto component : entity->getComponents())
         {
-          // Check that Component is of type BehaviorComponent
+          // Check that Component is of type Drawable2DComponent
           if (
             auto componentToRemove = std::dynamic_pointer_cast<
-              komodo::core::ecs::components::BehaviorComponent>(component))
+              komodo::core::ecs::components::Drawable2DComponent>(component))
           {
             // Erase the component from the vector
             this->components.erase(std::remove_if(

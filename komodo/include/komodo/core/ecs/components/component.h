@@ -2,16 +2,26 @@
 
 #include <memory>
 
-namespace komodo::core::ecs::entities
+namespace komodo::core::ecs
 {
-  class Entity;
+    namespace entities
+    {
+        class Entity;
+    }
+    namespace systems
+    {
+        class BehaviorSystem;
+        class Render2DSystem;
+    }
 }
 
 namespace komodo::core::ecs::components
 {
   class Component
   {
-    friend class komodo::core::ecs::entities::Entity;
+    friend komodo::core::ecs::entities::Entity;
+    // friend komodo::core::ecs::systems::BehaviorSystem;
+    // friend komodo::core::ecs::systems::Render2DSystem;
 
 public:
 #pragma region Constructors

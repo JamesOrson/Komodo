@@ -29,7 +29,6 @@ namespace komodo::core::ecs::systems
     }
     else
     {
-      component->parentId = parentId;
       if (!component->getIsInitialized())
       {
         this->uninitializedComponents.push(component);

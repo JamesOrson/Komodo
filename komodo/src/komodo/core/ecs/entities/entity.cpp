@@ -16,6 +16,7 @@ namespace komodo::core
     namespace systems
     {
       class BehaviorSystem;
+      class Render2DSystem;
     }
   }
 }
@@ -39,6 +40,10 @@ namespace komodo::core::ecs::entities
     if (entityStore.count(this->id) != 0)
     {
       this->game.getBehaviorSystem()->removeEntity(this->id);
+      if (this->render2DSystem)
+      {
+        this->render2DSystem->removeEntity(this->id);
+      }
       entityStore.erase(this->id);
     }
   }
@@ -144,6 +149,7 @@ namespace komodo::core::ecs::entities
       parent->removeComponent(component->getId());
     }
     component->parentId = this->id;
+    component->parent = entityStore[component->parentId];
     this->components.push_back(component);
     if (auto system = this->render2DSystem)
     {

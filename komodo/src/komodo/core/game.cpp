@@ -22,7 +22,6 @@ namespace komodo::core
 
   Game::~Game()
   {
-    spdlog::info("Clock: {}", this->clock.use_count());
   }
 
 #pragma region Static Members
@@ -64,6 +63,10 @@ namespace komodo::core
       sf::VideoMode(800u, 600u), "Komodo", sf::Style::Default);
 
     this->behaviorSystem->initialize();
+    for (auto renderSystem : this->render2DSystems)
+    {
+      renderSystem->initialize();
+    }
   };
 
   void Game::run()
