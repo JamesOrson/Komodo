@@ -3,12 +3,13 @@
 namespace komodo::core::ecs::systems
 {
 #pragma region Constructors
-  BehaviorSystem::BehaviorSystem(komodo::core::Game &game)
-    : System(game)
-  {}
+  BehaviorSystem::BehaviorSystem() {}
 #pragma endregion
 
-  BehaviorSystem::~BehaviorSystem() {}
+  BehaviorSystem::~BehaviorSystem()
+  {
+    this->clearEntities();
+  }
 
 #pragma region Accessors
   std::vector<std::shared_ptr<komodo::core::ecs::components::BehaviorComponent>>
@@ -40,7 +41,7 @@ namespace komodo::core::ecs::systems
 
   bool BehaviorSystem::addEntity(unsigned int entityId)
   {
-    if (auto entityToAdd = entities::Entity::getEntity(entityId))
+    if (auto entityToAdd = entities::Entity::getEntity(entityId).lock())
     {
       if (this->entities.count(entityId) == 0)
       {
@@ -99,11 +100,12 @@ namespace komodo::core::ecs::systems
 
   bool BehaviorSystem::removeEntity(const unsigned int entityId)
   {
-    if (this->entities.count(entityId) == 1)
+    if (this->entities.count(entityId))
     {
-      if (auto entity = entities::Entity::getEntity(entityId))
+      if (auto entity = entities::Entity::getEntity(entityId).lock())
       {
-        // Remove all components from BehaviorSystem that were part of the Entity
+        // Remove all components from BehaviorSystem that were part of the
+        // Entity
         for (auto component : entity->getComponents())
         {
           // Check that Component is of type BehaviorComponent
@@ -128,6 +130,7 @@ namespace komodo::core::ecs::systems
       }
       else
       {
+        this->entities.erase(entityId);
         return false;
       }
     }
@@ -141,7 +144,9 @@ namespace komodo::core::ecs::systems
   {
     for (auto component : this->components)
     {
-      if (auto parent = entities::Entity::getEntity(component->getParentId()))
+      if (
+        auto parent =
+          entities::Entity::getEntity(component->getParentId()).lock())
       {
         if (parent->getIsEnabled() && component->getIsEnabled())
         {

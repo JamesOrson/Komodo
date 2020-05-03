@@ -19,7 +19,7 @@ namespace komodo::core::ecs::systems
 
 public:
 #pragma region Constructors
-    Render2DSystem(komodo::core::Game &game);
+    Render2DSystem();
 #pragma endregion
 
     virtual ~Render2DSystem();

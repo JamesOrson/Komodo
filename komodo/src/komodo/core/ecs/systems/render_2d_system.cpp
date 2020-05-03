@@ -3,15 +3,14 @@
 namespace komodo::core::ecs::systems
 {
 #pragma region Constructors
-  Render2DSystem::Render2DSystem(komodo::core::Game &game)
-    : System(game)
-  {}
+  Render2DSystem::Render2DSystem() {}
 #pragma endregion
 
   Render2DSystem::~Render2DSystem() {}
 
 #pragma region Accessors
-  std::vector<std::shared_ptr<komodo::core::ecs::components::Drawable2DComponent>>
+  std::vector<
+    std::shared_ptr<komodo::core::ecs::components::Drawable2DComponent>>
   Render2DSystem::getComponents() const
   {
     return this->components;
@@ -20,7 +19,8 @@ namespace komodo::core::ecs::systems
 
 #pragma region Member Methods
   bool Render2DSystem::addComponent(
-    std::shared_ptr<komodo::core::ecs::components::Drawable2DComponent> component)
+    std::shared_ptr<komodo::core::ecs::components::Drawable2DComponent>
+      component)
   {
     auto parentId = component->getParentId();
     if (this->entities.count(parentId) == 0)
@@ -40,7 +40,7 @@ namespace komodo::core::ecs::systems
 
   bool Render2DSystem::addEntity(unsigned int entityId)
   {
-    if (auto entityToAdd = entities::Entity::getEntity(entityId))
+    if (auto entityToAdd = entities::Entity::getEntity(entityId).lock())
     {
       if (this->entities.count(entityId) == 0)
       {
@@ -49,7 +49,8 @@ namespace komodo::core::ecs::systems
         {
           if (
             auto component = std::dynamic_pointer_cast<
-              komodo::core::ecs::components::Drawable2DComponent>(componentToAdd))
+              komodo::core::ecs::components::Drawable2DComponent>(
+              componentToAdd))
           {
             this->addComponent(component);
           }
@@ -71,7 +72,8 @@ namespace komodo::core::ecs::systems
   {
     for (auto component : this->components)
     {
-      if (auto parent = entities::Entity::getEntity(component->getParentId()))
+      if (
+        auto parent = component->getParent().lock())
       {
         if (parent->getIsEnabled() && component->getIsEnabled())
         {
@@ -82,11 +84,14 @@ namespace komodo::core::ecs::systems
   }
 
   void Render2DSystem::drawComponent(
-    std::shared_ptr<komodo::core::ecs::components::Drawable2DComponent> component)
+    std::shared_ptr<komodo::core::ecs::components::Drawable2DComponent>
+      component)
   {
-    if (auto spriteComponent = std::dynamic_pointer_cast < komodo::core::ecs::components::SpriteComponent>(component))
+    if (
+      auto spriteComponent = std::dynamic_pointer_cast<
+        komodo::core::ecs::components::SpriteComponent>(component))
     {
-      this->game.getWindow()->draw(spriteComponent->sprite);
+      Game::getInstance().getWindow().draw(spriteComponent->sprite);
     }
   }
 
@@ -113,9 +118,10 @@ namespace komodo::core::ecs::systems
   {
     if (this->entities.count(entityId) == 1)
     {
-      if (auto entity = entities::Entity::getEntity(entityId))
+      if (auto entity = entities::Entity::getEntity(entityId).lock())
       {
-        // Remove all components from Render2DSystem that were part of the Entity
+        // Remove all components from Render2DSystem that were part of the
+        // Entity
         for (auto component : entity->getComponents())
         {
           // Check that Component is of type Drawable2DComponent

@@ -19,7 +19,7 @@ public:
      * parent, string fontPath, Effect shader);*/
 #pragma endregion
 
-    ~TextComponent();
+    virtual ~TextComponent();
 
 #pragma region Accessors
     /*TODO: Waiting on Vector2 implementation

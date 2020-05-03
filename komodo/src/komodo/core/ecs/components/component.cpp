@@ -6,6 +6,7 @@ namespace komodo::core::ecs::entities
   {
 public:
     static unsigned int emptyId;
+    static std::weak_ptr<Entity> getEntity(unsigned int entityId);
   };
 } // namespace komodo::core::ecs::entities
 
@@ -46,9 +47,10 @@ namespace komodo::core::ecs::components
     return this->isInitialized;
   }
 
-  std::shared_ptr<komodo::core::ecs::entities::Entity> Component::getParent() const
+  std::weak_ptr<komodo::core::ecs::entities::Entity>
+  Component::getParent() const
   {
-    return this->parent;
+    return komodo::core::ecs::entities::Entity::getEntity(this->parentId);
   }
 
   unsigned int Component::getParentId() const

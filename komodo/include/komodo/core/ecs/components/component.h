@@ -39,7 +39,7 @@ public:
     bool getIsEnabled() const;
     bool getIsInitialized() const;
     unsigned int getParentId() const;
-    std::shared_ptr<komodo::core::ecs::entities::Entity> getParent() const;
+    std::weak_ptr<komodo::core::ecs::entities::Entity> getParent() const;
     /*TODO: Waiting on Vector3 implementation
     Vector3 getPosition() const;
     Vector3 getRotation() const;
@@ -73,7 +73,6 @@ protected:
 
 private:
 #pragma region Members
-    std::shared_ptr<komodo::core::ecs::entities::Entity> parent;
     unsigned int parentId;
 #pragma endregion
   };

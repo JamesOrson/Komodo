@@ -12,28 +12,29 @@ namespace komodo::core
     // this->content = std::make_shared<ContentManager>(...params...);
 
     this->behaviorSystem =
-      std::make_shared<komodo::core::ecs::systems::BehaviorSystem>(*this);
+      std::make_unique<komodo::core::ecs::systems::BehaviorSystem>();
     // this->cameraSystem = std::make_shared<CameraSystem>(...params...);
     // this->physicsSystems =
     // std::make_shared<PhysicsSystem>(...params...); this->soundSystem =
     // std::make_shared<SoundSystem>(...params...);
+
+    instance = this;
   }
 #pragma endregion
 
-  Game::~Game()
-  {
-  }
+  Game::~Game() {}
 
 #pragma region Static Members
   // Game::ContentManager contentManager = ???
+  Game* Game::instance;
 #pragma endregion
 
 #pragma region Member Methods
   std::shared_ptr<komodo::core::ecs::systems::Render2DSystem>
-    Game::createRender2DSystem()
+  Game::createRender2DSystem()
   {
     auto system =
-      std::make_shared<komodo::core::ecs::systems::Render2DSystem>(*this);
+      std::make_shared<komodo::core::ecs::systems::Render2DSystem>();
     this->render2DSystems.push_back(system);
     return system;
   }
@@ -41,11 +42,10 @@ namespace komodo::core
   void Game::draw([[maybe_unused]] float dt, sf::Color clearColor)
   {
     spdlog::info("FPS: {}", this->framesPerSecond);
-
     // Clears the screen for next set of draws
     this->window->clear(clearColor);
 
-    for (auto system : this->render2DSystems)
+    for (auto &system : this->render2DSystems)
     {
       system->draw(dt);
     }
@@ -58,12 +58,12 @@ namespace komodo::core
 
   void Game::initialize()
   {
-    this->clock = std::make_shared<sf::Clock>();
-    this->window = std::make_shared<sf::RenderWindow>(
+    this->clock = std::make_unique<sf::Clock>();
+    this->window = std::make_unique<sf::RenderWindow>(
       sf::VideoMode(800u, 600u), "Komodo", sf::Style::Default);
 
     this->behaviorSystem->initialize();
-    for (auto renderSystem : this->render2DSystems)
+    for (auto &renderSystem : this->render2DSystems)
     {
       renderSystem->initialize();
     }
@@ -74,19 +74,23 @@ namespace komodo::core
     this->initialize();
 
     auto drawStart = this->clock->getElapsedTime();
+    auto drawEnd = this->clock->getElapsedTime();
     auto updateStart = this->clock->getElapsedTime();
+    auto updateEnd = this->clock->getElapsedTime();
     while (!this->shouldClose)
     {
-      auto updateDelta = this->clock->getElapsedTime() - updateStart;
+      updateStart = this->clock->getElapsedTime();
+      auto updateDelta = updateStart - updateEnd;
       float dt = updateDelta.asSeconds();
       this->update(dt);
-      updateStart = this->clock->getElapsedTime();
-      auto drawDelta = this->clock->getElapsedTime() - drawStart;
-
-      dt = drawDelta.asSeconds();
-      this->framesPerSecond = 1.0f / dt;
-      this->draw(dt);
+      updateEnd = this->clock->getElapsedTime();
+      
       drawStart = this->clock->getElapsedTime();
+      auto drawDelta = drawStart - drawEnd;
+      dt = drawDelta.asSeconds();
+      this->draw(dt);
+      drawEnd = this->clock->getElapsedTime();
+      this->framesPerSecond = 1.0f / (drawEnd - updateStart).asSeconds();
     }
     this->window->close();
   };
@@ -114,10 +118,9 @@ namespace komodo::core
 #pragma endregion
 
 #pragma region Accessors
-  std::shared_ptr<komodo::core::ecs::systems::BehaviorSystem>
-  Game::getBehaviorSystem()
+  komodo::core::ecs::systems::BehaviorSystem &Game::getBehaviorSystem()
   {
-    return this->behaviorSystem;
+    return *this->behaviorSystem;
   }
 
   // weak_ptr<CameraSystem> Game::getCameraSystem() const
@@ -167,9 +170,9 @@ namespace komodo::core
     return this->title;
   }
 
-  std::shared_ptr<sf::RenderWindow> Game::getWindow() const
+  sf::RenderWindow &Game::getWindow() const
   {
-    return this->window;
+    return *this->window;
   }
 #pragma endregion
 
@@ -181,6 +184,13 @@ namespace komodo::core
   void Game::setTitle(std::string value)
   {
     this->title = value;
+  }
+#pragma endregion
+
+#pragma region Static Member Methods
+  Game &Game::getInstance()
+  {
+    return *instance;
   }
 #pragma endregion
 } // namespace komodo::core

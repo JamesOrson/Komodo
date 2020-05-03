@@ -26,7 +26,7 @@ public:
       bool isEnabled = true);
 #pragma endregion
 
-    ~SpriteComponent();
+    virtual ~SpriteComponent();
 
 #pragma region Accessors
     /*TODO: Waiting on Vector2 implementation

@@ -2,9 +2,7 @@
 
 #include <komodo/core/ecs/components/behavior_component.h>
 #include <komodo/core/ecs/entities/entity.h>
-
-#include <iostream>
-#include <spdlog/spdlog.h>
+#include <komodo/core/game.h>
 
 class MoveBehavior : public komodo::core::ecs::components::BehaviorComponent
 {
@@ -15,18 +13,11 @@ class MoveBehavior : public komodo::core::ecs::components::BehaviorComponent
   {}
 #pragma endregion
 
-  virtual ~MoveBehavior()
-  {
-    std::cout << "Deleting\n";
-  }
+  virtual ~MoveBehavior() {}
 
-  void initialize()
-  {
-  }
+  void initialize() {}
 
 #pragma region Member Methods
-  void update([[maybe_unused]] float dt)
-  {
-  }
+  void update([[maybe_unused]] float dt) {}
 #pragma endregion
 };

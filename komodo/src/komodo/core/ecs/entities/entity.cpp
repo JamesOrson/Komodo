@@ -17,15 +17,14 @@ namespace komodo::core
     {
       class BehaviorSystem;
       class Render2DSystem;
-    }
-  }
-}
+    } // namespace systems
+  }   // namespace ecs
+} // namespace komodo::core
 
 namespace komodo::core::ecs::entities
 {
 #pragma region Constructors
-  Entity::Entity(komodo::core::Game &game)
-    : game(game)
+  Entity::Entity()
   {
     this->id = nextId++;
     this->isEnabled = true;
@@ -37,19 +36,18 @@ namespace komodo::core::ecs::entities
 
   Entity::~Entity()
   {
-    if (entityStore.count(this->id) != 0)
+    if (entityStore.find(this->id) != entityStore.end())
     {
-      this->game.getBehaviorSystem()->removeEntity(this->id);
       if (this->render2DSystem)
       {
         this->render2DSystem->removeEntity(this->id);
       }
-      entityStore.erase(this->id);
     }
+    entityStore.erase(this->id);
   }
 
 #pragma region Static Members
-  std::unordered_map<unsigned int, std::shared_ptr<Entity>> Entity::entityStore;
+  std::unordered_map<unsigned int, std::weak_ptr<Entity>> Entity::entityStore;
   unsigned int Entity::nextId = 1u;
   unsigned int Entity::emptyId = 0u;
 #pragma endregion
@@ -59,11 +57,6 @@ namespace komodo::core::ecs::entities
   Entity::getComponents() const
   {
     return this->components;
-  }
-
-  komodo::core::Game &Entity::getGame() const
-  {
-    return this->game;
   }
 
   unsigned int Entity::getId() const
@@ -98,7 +91,7 @@ namespace komodo::core::ecs::entities
   {
     this->isEnabled = value;
   }
-  
+
   void Entity::setRender2DSystem(
     std::shared_ptr<komodo::core::ecs::systems::Render2DSystem> value)
   {
@@ -127,29 +120,24 @@ namespace komodo::core::ecs::entities
   bool Entity::addComponent(
     std::shared_ptr<komodo::core::ecs::components::BehaviorComponent> component)
   {
-    if (auto parent = getEntity(component->getParentId()))
+    if (auto parent = getEntity(component->getParentId()).lock())
     {
       parent->removeComponent(component->getId());
     }
     component->parentId = this->id;
-    component->parent = entityStore[component->parentId];
     this->components.push_back(component);
-    if (auto system = this->game.getBehaviorSystem())
-    {
-      return system->addComponent(component);
-    }
-    return false;
+    return Game::getInstance().getBehaviorSystem().addComponent(component);
   }
 
   bool Entity::addComponent(
-    std::shared_ptr<komodo::core::ecs::components::Drawable2DComponent> component)
+    std::shared_ptr<komodo::core::ecs::components::Drawable2DComponent>
+      component)
   {
-    if (auto parent = getEntity(component->getParentId()))
+    if (auto parent = getEntity(component->getParentId()).lock())
     {
       parent->removeComponent(component->getId());
     }
     component->parentId = this->id;
-    component->parent = entityStore[component->parentId];
     this->components.push_back(component);
     if (auto system = this->render2DSystem)
     {
@@ -187,15 +175,14 @@ namespace komodo::core::ecs::entities
 #pragma endregion
 
 #pragma region Static Member Methods
-  std::shared_ptr<Entity> Entity::create(komodo::core::Game &game)
+  std::shared_ptr<Entity> Entity::create()
   {
-    auto entity = std::shared_ptr<Entity>(new Entity(game));
+    auto entity = std::shared_ptr<Entity>(new Entity());
     entityStore[entity->getId()] = entity;
-
     return entity;
   }
 
-  std::shared_ptr<Entity> Entity::getEntity(unsigned int entityId)
+  std::weak_ptr<Entity> Entity::getEntity(unsigned int entityId)
   {
     if (entityStore.count(entityId) == 1)
     {
@@ -203,7 +190,7 @@ namespace komodo::core::ecs::entities
     }
     else
     {
-      return nullptr;
+      return std::weak_ptr<Entity>();
     }
   }
 #pragma endregion

@@ -3,8 +3,7 @@
 namespace komodo::core::ecs::systems
 {
 #pragma region Constructors
-  System::System(komodo::core::Game &game)
-    : game(game)
+  System::System()
   {
     this->isInitialized = false;
   }
@@ -13,8 +12,7 @@ namespace komodo::core::ecs::systems
   System::~System() {}
 
 #pragma region Accessors
-  std::unordered_set<unsigned int>
-  System::getEntities() const
+  std::unordered_set<unsigned int> System::getEntities() const
   {
     return this->entities;
   }
@@ -23,9 +21,10 @@ namespace komodo::core::ecs::systems
 #pragma region Member Methods
   void System::clearEntities()
   {
-    for (auto id : this->entities)
+    while (!this->entities.empty())
     {
-      this->removeEntity(id);
+      auto id = this->entities.begin();
+      this->removeEntity(*id);
     }
     this->entities.clear();
   }

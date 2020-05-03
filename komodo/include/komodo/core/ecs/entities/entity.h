@@ -33,14 +33,13 @@ public:
 #pragma endregion
 
 #pragma region Static Member Methods
-    static std::shared_ptr<Entity> create(komodo::core::Game &game);
-    static std::shared_ptr<Entity> getEntity(unsigned int entityId);
+    static std::shared_ptr<Entity> create();
+    static std::weak_ptr<Entity> getEntity(unsigned int entityId);
 #pragma endregion
 
 #pragma region Accessors
     std::vector<std::shared_ptr<komodo::core::ecs::components::Component>>
     getComponents() const;
-    komodo::core::Game &getGame() const;
     unsigned int getId() const;
     bool getIsEnabled() const;
     std::shared_ptr<komodo::core::ecs::systems::Render2DSystem>
@@ -78,13 +77,12 @@ public:
 
 private:
 #pragma region Constructors
-    Entity(komodo::core::Game &game);
+    Entity();
 #pragma endregion
 
 #pragma region Members
     std::vector<std::shared_ptr<komodo::core::ecs::components::Component>>
       components;
-    komodo::core::Game &game;
     unsigned int id;
     bool isEnabled;
     std::shared_ptr<komodo::core::ecs::systems::Render2DSystem> render2DSystem;
@@ -100,7 +98,7 @@ private:
 #pragma endregion Members
 
 #pragma region Static Members
-    static std::unordered_map<unsigned int, std::shared_ptr<Entity>>
+    static std::unordered_map<unsigned int, std::weak_ptr<Entity>>
       entityStore;
 #pragma endregion
   };

@@ -15,7 +15,7 @@ namespace komodo::core::ecs::systems
   {
 public:
 #pragma region Constructors
-    System(komodo::core::Game &game);
+    System();
 #pragma endregion
 
     virtual ~System();
@@ -34,7 +34,6 @@ public:
 protected:
 #pragma region Members
     std::unordered_set<unsigned int> entities;
-    komodo::core::Game &game;
     bool isInitialized;
 #pragma endregion
   };

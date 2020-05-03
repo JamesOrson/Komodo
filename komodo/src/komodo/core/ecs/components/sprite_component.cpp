@@ -2,16 +2,14 @@
 
 namespace komodo::core::ecs::components
 {
-#pragma region Constructors  
+#pragma region Constructors
   SpriteComponent::SpriteComponent(
     /*, Texture texture, Effect shader,*/
     bool isBillboard,
     bool isEnabled)
     : Drawable2DComponent(isBillboard, isEnabled)
-  {
+  {}
 
-  }
-  
   SpriteComponent::SpriteComponent(
     std::string texturePath,
     /*, Texture texture, Effect shader,*/
@@ -42,7 +40,7 @@ namespace komodo::core::ecs::components
   {
     return "";
   }
-  
+
   float SpriteComponent::getWidth() const
   {
     return 0.0f;

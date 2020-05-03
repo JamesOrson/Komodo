@@ -22,12 +22,8 @@ public:
 
     ~Game();
 
-#pragma region Static Members
-    // static ContentManager contentManager;
-#pragma endregion
-
 #pragma region Accessors
-    std::shared_ptr<komodo::core::ecs::systems::BehaviorSystem>
+    komodo::core::ecs::systems::BehaviorSystem&
     getBehaviorSystem();
     // weak_ptr<CameraSystem> getCameraSystem() const;
     // weak_ptr<Shader> getDefaultSpriteShader() const;
@@ -40,7 +36,7 @@ public:
     std::string getScreenDeviceName() const;
     // weak_ptr<SoundSystem> getSoundSystem() const;
     std::string getTitle() const;
-    std::shared_ptr<sf::RenderWindow> getWindow() const;
+    sf::RenderWindow& getWindow() const;
 #pragma endregion
 
 #pragma region Mutators
@@ -54,7 +50,8 @@ public:
     // std::shared_ptr<Render2DSystem> createRender2DSystem();
     // std::shared_ptr<Render3DSystem> createRender3DSystem();
 
-    std::shared_ptr<komodo::core::ecs::systems::Render2DSystem> createRender2DSystem();
+    std::shared_ptr<komodo::core::ecs::systems::Render2DSystem>
+    createRender2DSystem();
     void draw(float dt, sf::Color clearColor = sf::Color(0u, 100u, 100u));
     void exit();
     void initialize();
@@ -83,11 +80,15 @@ public:
 
 #pragma endregion
 
+#pragma region Static Member Methods
+    static Game &getInstance();
+#pragma endregion
+
 private:
 #pragma region Members
-    std::shared_ptr<komodo::core::ecs::systems::BehaviorSystem> behaviorSystem;
+    std::unique_ptr<komodo::core::ecs::systems::BehaviorSystem> behaviorSystem;
     // CameraSystem cameraSystem;
-    std::shared_ptr<sf::Clock> clock;
+    std::unique_ptr<sf::Clock> clock;
     // Shader defaultSpriteShader;
     float framesPerSecond = 0.0;
     // GraphicsManager graphicsManager;
@@ -100,7 +101,12 @@ private:
     bool shouldClose = false;
     // SoundSystem soundSystem;
     std::string title;
-    std::shared_ptr<sf::RenderWindow> window;
+    std::unique_ptr<sf::RenderWindow> window;
+#pragma endregion
+
+#pragma region Static Members
+    static std::once_flag onceFlag;
+    static Game* instance;
 #pragma endregion
   };
 } // namespace komodo::core
